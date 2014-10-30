@@ -1,0 +1,35 @@
+{% extends "base_shows.html" %}
+
+{% block header %}Shows{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+{% if show_list %}
+{# consider adding these as a media object, e.g. http://getbootstrap.com/components/#media #}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>r1</th>
+				<th>r1</th>
+				<th>r1</th>
+				<th>r1</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		{% for show in show_list %}
+			<tr>
+				<a href="{% url 'shows:detail' show.id %}">{{ show.name }}</a>
+			</tr>
+		{% endfor %}
+		</tbody>
+		
+{% else %}
+    <p>No shows available.</p>
+{% endif %}
+
+</div>
+
+{% endblock content %}

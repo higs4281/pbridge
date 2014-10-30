@@ -1,0 +1,8 @@
+{% comment %}
+FROM 2 SCOOPS
+	Usage: {% include 'shows/_show_search.html' %}
+{% endcomment %}
+<form action ="{ url 'show_list' %}" method="GET">
+	<input type="text" name="q" />
+	<button type="submit">search</button>
+</form>

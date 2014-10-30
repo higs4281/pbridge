@@ -1,0 +1,12 @@
+{% extends 'base_shows.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block header %}Create/modify Campaign{% endblock %}
+
+{% block content %}
+<div class="container">
+{% crispy form %}
+<br>
+</div>
+{% endblock content %}

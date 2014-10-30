@@ -1,0 +1,185 @@
+{% extends 'base_shows.html' %}
+
+{% load staticfiles  %}
+
+{% block stylesheets %}
+    {{ block.super }}
+	<link href="{% static 'shows/css/jquery-ui.min.css' %}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block extrahead %}
+    {{ block.super }}
+	<script src="{% static 'shows/scripts/jquery-ui.min.js' %}" type="text/javascript"></script>
+{% endblock extrahead %}
+
+{% block header %}Add New Show{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form class="form-inline" role="form" action="" onsubmit="return false">
+        <div class="form-group">
+            <label class="sr-only" for="searchType">Platform:</label>
+            <select class="form-control" id="searchType">
+                <option value="youtube" selected="selected">YouTube</option>
+                <option value="itunes">iTunes</option>
+                <option value="other">Other (manual entry)</option>
+            </select>
+        </div>
+        <div class="form-group" id="yt">
+            <label class="sr-only" for="youtube">YouTube Channel:</label>
+            <input class="form-control" id="youtube" />
+            <button id="submityt" class="btn btn-default">Submit</button>
+        </div>
+        <div class="form-group" id="it">
+            <label class="sr-only" for="itunes">Podcast Name:</label>
+            <input class="form-control" id="itunes" />
+            <button id="submitit" class="btn btn-default">Submit</button>
+        </div>
+    </form>
+</div>
+<div class="container" id="shows" style="padding-top: 20px;"></div>
+
+{% endblock content %}
+
+{% block javascript %}
+<script>
+/* Toggle visible searches */
+$(function(){
+    $('#it').hide()
+
+    $('#searchType').change(function(){
+        var selectedValue = $(this).val();
+
+        if(selectedValue === 'youtube'){
+            $('#yt').show();
+            $('#it').hide();
+        } else if (selectedValue === 'itunes'){
+            $('#yt').hide();
+            $('#it').show();
+        } else if (selectedValue === 'other'){
+            window.location = "{% url 'shows:create' %}";
+        }
+    })
+})
+/* YouTube AutoComplete */
+$('#youtube').autocomplete({
+    source: function(request, response){
+        /* Google API key */
+        var apiKey = 'AIzaSyBG4KX5QRTr8gn3bn8a-5iyU1PWSkC_-PA';
+        /* search keyword */
+        var query = request.term;
+        /* youtube query */
+        $.ajax({
+            url: "http://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=" + query,
+            dataType: 'jsonp',
+            success: function(data) {
+               response( $.map( data[1], function(item) {
+                    return {
+                        label: item[0],
+                        value: item[0]
+                    }
+                }));
+            }
+        });
+    },
+    /* what happens when an option is selected */
+    select: function( event, ui ) {
+        $.youtubeAPI(ui.item.label);
+    }
+});
+
+/* On YouTube Button Submit */
+$('button#submityt').click(function(){
+    var value = $('input#youtube').val();
+        $.youtubeAPI(value);
+});
+
+/* Youtube API search function */
+$.youtubeAPI = function(query){
+    var shows = $('#shows');
+    var apiKey = 'AIzaSyBG4KX5QRTr8gn3bn8a-5iyU1PWSkC_-PA';
+    shows.html('Searching...');
+    $.ajax({
+        type: 'GET',
+        url: 'https://www.googleapis.com/youtube/v3/search?key=' + apiKey + '&part=id,snippet&type=channel&q=' + query,
+        dataType: 'json',
+        success: function( apiData ){
+            if( apiData.items ){
+                shows.empty();
+                $.each( apiData.items, function(i, item) {
+                    shows.append('<div class="media">\
+                        <a class="pull-left" href="{% url 'shows:create' %}' + '?platform=yt&id=' + item.id.channelId + '">\
+                        <img src="' + item.snippet.thumbnails.default.url + '" width="64" height="64" alt="' + item.snippet.channelTitle + '" />\
+                        </a>\
+                        <div class="media-body"><h4 class="media-heading">' + item.snippet.channelTitle + '</h4>\
+                        <p>' + item.snippet.description + '</p>\
+                    </div>');
+                });
+            }
+            else {
+                shows.html('<div class="alert alert-warning">Searching <strong>' + query + '</strong> found no results</div>');
+            }
+        }
+    });
+}
+
+/* iTunes AutoComplete */
+$('#itunes').autocomplete({
+    source: function(request, response){
+        /* search keyword */
+        var query = request.term;
+        /* itunes query */
+        $.ajax({
+            url: "https://itunes.apple.com/search?term=" + query + "&media=podcast&limit=5",
+            dataType: 'jsonp',
+            success: function(data) {
+               response( $.map( data.results, function(item) {
+                    return {
+                        label: item.trackName,
+                        value: item.trackName,
+                    }
+                }));
+            }
+        });
+    },
+    /* what happens when an option is selected */
+    select: function( event, ui ) {
+        $.itunesAPI(ui.item.label);
+    }
+});
+
+/* On iTunes Button Submit */
+$('button#submitit').click(function(){
+    var value = $('input#itunes').val();
+        $.itunesAPI(value);
+});
+
+/* iTunes API search function */
+$.itunesAPI = function(query){
+    var shows = $('#shows');
+    shows.html('Searching...');
+    $.ajax({
+        type: 'GET',
+        url: 'https://itunes.apple.com/search?term=' + query + '&media=podcast&limit=5',
+        dataType: 'jsonp',
+        success: function( apiData ){
+            if( apiData.results ){
+                shows.empty();
+                $.each( apiData.results, function(i, item) {
+                    shows.append('<div class="media">\
+                        <a class="pull-left" href="{% url 'shows:create' %}' + '?platform=it&id=' + item.trackId + '">\
+                        <img src="' + item.artworkUrl60 + '" width="60" height="60" alt="' + item.trackName + '" />\
+                        </a>\
+                        <div class="media-body"><h4 class="media-heading">' + item.trackName + '</h4>\
+                    </div>');
+                });
+            }
+            else {
+                shows.html('<div class="alert alert-warning">Searching <strong>' + query + '</strong> found no results</div>');
+            }
+        }
+    });
+}
+
+</script>
+{% endblock javascript %}

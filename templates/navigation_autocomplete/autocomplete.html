@@ -1,0 +1,17 @@
+{% load url from future %}
+
+{% for show in shows %}
+<a class="div choice" href="{% url 'admin:shows_show_change' show.pk %}">{{ show }}</a>
+{% endfor %}
+{% for vendor in vendors %}
+<a class="div choice" href="{% url 'admin:vendors_vendor_change' vendor.pk %}">{{ vendor }}</a>
+{% endfor %}
+{% for client in cities %}
+<a class="div choice" href="{% url 'admin:clients_client_change' client.pk %}">{{ client }}</a>
+{% endfor %}
+{% for group in groups %}
+<a class="div choice" href="{% url 'admin:auth_group_change' group.pk %}">{{ group }}</a>
+{% endfor %}
+{% for user in users %}
+<a class="div choice" href="{% url 'admin:auth_user_change' user.pk %}">{{ user }}</a>
+{% endfor %}
