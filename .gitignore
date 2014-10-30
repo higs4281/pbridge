@@ -57,3 +57,6 @@ target/
 
 # And some custom stuff
 local_settings.py
+cache/
+# Pycharm
+.idea/
