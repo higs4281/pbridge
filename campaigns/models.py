@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -19,3 +20,6 @@ class Campaign(TimeStampedModel):
     @python_2_unicode_compatible
     def __str__(self):
         return '{} - {}'.format(self.client, self.name)
+
+    def get_absolute_url(self):
+        return reverse('campaigns:detail', args=[str(self.id)])

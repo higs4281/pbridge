@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from extra_views import InlineFormSet, UpdateWithInlinesView
@@ -9,6 +9,16 @@ from ads.models import Ad
 from shows.mixins import SelectRelatedMixin
 from .models import Campaign
 from .forms import CampaignCreateForm
+
+
+class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
+                       UpdateView):
+    """
+    Base view for a list of campaigns.
+    """
+
+    model = Campaign
+    permission_required = 'is_staff'
 
 
 class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin,
