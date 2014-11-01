@@ -57,6 +57,7 @@ target/
 
 # And some custom stuff
 local_settings.py
+makeshows.csv
 cache/
 # Pycharm
 .idea/
