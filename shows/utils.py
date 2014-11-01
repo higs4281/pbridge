@@ -1,8 +1,8 @@
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 from django.shortcuts import get_object_or_404
 
-from .models import Platform
+from .models import Platform, Show
 from .apitools import youtube_channel, get_freebase, itunes_lookup
 
 

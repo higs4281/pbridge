@@ -2,7 +2,7 @@
 Contains tools for dealing with various API's.
 Uses HTTP and the 'Requests' third party package, since
 google-api-python-client does not not support Python 3+.
-Written in Python 3.4, but should work in 2.7+
+Written in Python 3.4.
 """
 
 from __future__ import unicode_literals
@@ -44,13 +44,13 @@ def itunes_lookup(itunes_id, **kwargs):
     return r
 
 
-def youtube_search(q, part='id,snippet', type='channel', **kwargs):
+def youtube_search(q, part='id,snippet', _type='channel', **kwargs):
     """
-    Returns a YouTube API search as a request object. Defaults to Channels.
-    To search something else set type="[object type]".
+    Returns a YouTube API search as a request object. Default filters 'type'
+    to Channels.
     """
 
-    params = {'q': q, 'key': GOOGLE_API_KEY, 'part': part, 'type': type}
+    params = {'q': q, 'key': GOOGLE_API_KEY, 'part': part, 'type': _type}
     params.update(kwargs)
     r = requests.get(YOUTUBE_BASE + '/search', params=params)
     return r
