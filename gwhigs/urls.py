@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^login/', LoginView.as_view(form_class=LoginForm), name='login'),
     url(r'^logout/', 'django.contrib.auth.views.logout', {'next_page': 'index'}, name='logout'),
     url(r'^shows/', include('shows.urls', namespace='shows')),
+    url(r'^campaigns/', include('campaigns.urls', namespace='campaigns')),
     
 ]

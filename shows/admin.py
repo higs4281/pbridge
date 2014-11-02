@@ -27,7 +27,7 @@ class ShowAdmin(SimpleHistoryAdmin):
     # autocomplete_light functionality
     form = ShowAdminForm
 
-    inlines = (TrackingInline, EpisodeInline)
+    inlines = [TrackingInline, EpisodeInline]
 
 
 @admin.register(Episode)

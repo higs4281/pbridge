@@ -17,6 +17,14 @@ class Campaign(TimeStampedModel):
     description = models.TextField(blank=True)
     history = HistoricalRecords()
 
+    @property
+    def planned_spend(self):
+        return self.ad_set.sum('cost')
+
+    @property
+    def planned_spend_display(self):
+        return '$ {:,.0f}'.format(self.planned_spend)
+
     @python_2_unicode_compatible
     def __str__(self):
         return '{} - {}'.format(self.client, self.name)

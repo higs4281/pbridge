@@ -12,6 +12,7 @@ from shows.mixins import ContactInfoMixin
 class Client(ContactInfoMixin, TimeStampedModel):
     name = models.CharField('client name', max_length=255)
     contact_name = models.CharField(max_length=255, blank=True)
+    logo = models.FileField(upload_to='img', blank=True)
     history = HistoricalRecords()
 
     @python_2_unicode_compatible

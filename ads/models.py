@@ -72,11 +72,6 @@ class Ad(TimeStampedModel):
         return reverse('ads:detail', args=[str(self.id)])
 
     def clean(self):
-        # Shouldn't have a different vendor than what's on the IO
-        order_list = self.orders.all()
-        if order_list:
-            if not(all([order.vender == self.vendor for order in order_list])):
-                raise ValidationError('Vendor should match the IO.')
         # Shouldn't have cost if it's a bonus or makegood
         if self.cost_type in (self.MAKEGOOD, self.BONUS) and self.cost > 0:
             msg = "A {} shouldn't have cost.".format(self.get_cost_type_display())
@@ -84,17 +79,16 @@ class Ad(TimeStampedModel):
         if self.verified and not self.dropped:
             msg = "An ad can't be verified if it hasn't dropped."
             raise ValidationError(msg)
-        if self.downloads > 0 and not self.dropped:
-            msg = "An ad shouldn't have downloads if it hasn't dropped"
-            raise ValidationError(msg)
 
     @python_2_unicode_compatible
     def __str__(self):
-        return '{} - {} - {:%m/%d/%Y}'.format(
-            self.client,
-            self.vendor,
-            self.scheduled_date,
-        )
+        if self.scheduled_date:
+            return '{} - {} - {:%m/%d/%y}'.format(
+                self.show,
+                self.vendor,
+                self.scheduled_date,
+            )
+        return '{} - {} - TBD'.format(self.show, self.vendor)
 
     class Meta:
         ordering = ['-scheduled_date']
