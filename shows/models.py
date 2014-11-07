@@ -38,11 +38,11 @@ class Platform(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         # Currently treating simple_name as a fake SlugField; consider
-        # Changing to an actual SlugField.
+        # changing to an actual SlugField.
         if self.simple_name:
             self.simple_name = slugify(self.simple_name)
         else:
-            self.simple_name = self.name
+            self.simple_name = slugify(self.name)
         super(Platform, self).save(*args, **kwargs)
 
 
