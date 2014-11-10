@@ -11,7 +11,7 @@ from django.conf import settings
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proj.settings')
 
-app = Celery('gwhigs')
+app = Celery('pbridge')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.

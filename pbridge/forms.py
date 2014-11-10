@@ -14,7 +14,7 @@ class LoginForm(AuthenticationForm, forms.Form):
     # Override form fields
     username = forms.CharField(max_length=254)
     password = forms.CharField(widget=forms.PasswordInput)
-    
+
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()

@@ -1,5 +1,5 @@
 """
-Django settings for gwhigs project.
+Django settings for pbridge project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -65,9 +65,9 @@ MIDDLEWARE_CLASSES = (
     'simple_history.middleware.HistoryRequestMiddleware',
 )
 
-ROOT_URLCONF = 'gwhigs.urls'
+ROOT_URLCONF = 'pbridge.urls'
 
-WSGI_APPLICATION = 'gwhigs.wsgi.application'
+WSGI_APPLICATION = 'pbridge.wsgi.application'
 
 
 # Database
@@ -138,6 +138,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_URL = '/logout/'
 
 # Grappelli customization
 GRAPPELLI_ADMIN_TITLE = 'Performance Bridge Media'

@@ -1,0 +1,49 @@
+{% extends "base_shows.html" %}
+
+{% load staticfiles %}
+
+{% block header %}{{ ad }}<a href="{% url 'ads:update' ad.pk %}"><button class="btn btn-default pull-right">Edit</button></a>{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="col-lg-3">
+        <a href="{{ ad.show.art }}">
+            <img class="img-rounded img-responsive" src="{{ ad.show.art }}" alt="{{ ad.show.name }}" />
+        </a>
+    </div>
+    <div class="col-lg-9">
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Host</strong></p>
+            <p class="col-sm-10">{% if show.host %}{{ show.host.name }}{% endif %}</p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Description</strong></p>
+            <p class="col-sm-10">{{ show.description }}</p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Homepage</strong></p>
+            <p class="col-sm-10"><a href="{{ show.link }}" target="_blank">{{ show.link }}</a></p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Platform</strong></p>
+            <p class="col-sm-10">{{ show.platform }}</p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Tags</strong></p>
+            <p class="col-sm-10">{{ show.tags.all|join:", " }}</p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Vendor</strong></p>
+            <p class="col-sm-10">{{ show.default_vendor }}</p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Downloads/ep.</strong></p>
+            <p class="col-sm-10">{{ show.downloads_per_episode }}</p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Notes</strong></p>
+            <p class="col-sm-10">{{ show.notes }}</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

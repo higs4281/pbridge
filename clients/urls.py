@@ -2,11 +2,13 @@ from __future__ import absolute_import, unicode_literals
 
 from django.conf.urls import url
 
-from .views import CampaignCreateView
+from .views import BudgetCreateView, ClientListView
 
 urlpatterns = [
-    url(r'^$', AdListView.as_view(), name='index'),
-    url(r'^(?P<pk>\d+)/$', AdDetailView.as_view(), name='detail'),
-    url(r'^(?P<pk>\d+)/update/$', AdUpdateView.as_view(), name='update'),
-    url(r'^create/$', AdCreateView.as_view(), name='create'),
+    url(r'^$', ClientListView.as_view(), name='index'),
+    url(
+        r'^budgets/create/$',
+        BudgetCreateView.as_view(),
+        name='budget_create'
+    ),
 ]

@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import autocomplete_light
 import floppyforms.__future__ as forms  # Use __future__ until 1.3
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Submit, Layout, Div
 
 from .models import Ad
 
@@ -18,27 +18,18 @@ class AdAdminForm(autocomplete_light.ModelForm):
         exclude = []
 
 
-class AdForm(forms.ModelForm):
+class AdCreateForm(forms.ModelForm):
     """
-    Base form for the Ad model. Adds crispy_forms functionality in the
-    __init__ function with the FormHelper class.
+    For quick Ad creation.
     """
 
     def __init__(self, *args, **kwargs):
-        super(AdForm, self).__init__(*args, **kwargs)
+        super(AdCreateForm, self).__init__(*args, **kwargs)
 
-        # If you pass FormHelper constructor a form instance
-        # It builds a default layout with all its fields
+        # Custom Crispiness
         self.helper = FormHelper(self)
-
-        # You can then dynamically adjust your layout
+        self.helper.form_class = 'form-inline'
         self.helper.add_input(Submit('save', 'Save'))
-
-
-class AdCreateForm(AdForm):
-    """
-    For Show creation. Inherits from AdForm.
-    """
 
     class Meta:
         model = Ad
@@ -51,11 +42,63 @@ class AdCreateForm(AdForm):
         ]
 
 
-class AdUpdateForm(AdForm):
+class AdUpdateForm(forms.ModelForm):
     """
-    For updating Ads. Inherits from AdForm.
+    For updating Ads.
     """
+
+    def __init__(self, *args, **kwargs):
+        super(AdUpdateForm, self).__init__(*args, **kwargs)
+
+        # Custom Crispiness
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    'show',
+                    'campaign',
+                    'vendor',
+                    'instructions',
+                    css_class='col-md-5'
+                ),
+                Div(
+                    'scheduled_date',
+                    'cost',
+                    'projected_views',
+                    'order',
+                    'episode',
+                    'timestamp',
+                    css_class='col-md-5'
+                ),
+                Div(
+                    'views_guaranteed',
+                    'cost_type',
+                    'verified',
+                    'makegood_needed',
+                    'notes',
+                    css_class='col-md-2'
+                ),
+                css_class='row'
+            )
+        )
+        # self.helper.add_input(Submit('save', 'Save'))
 
     class Meta:
         model = Ad
-        exclude = []
+        fields = [
+            'campaign',
+            'show',
+            'vendor',
+            'scheduled_date',
+            'cost',
+            'projected_views',
+            'views_guaranteed',
+            'cost_type',
+            'order',
+            'instructions',
+            'episode',
+            'timestamp',
+            'verified',
+            'notes',
+            'makegood_needed'
+        ]

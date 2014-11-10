@@ -23,7 +23,7 @@ class LoginView(FormView):
             url(r'^login/$',
                 LoginView.as_view(
                     form_class=MyCustomAuthFormClass,
-                    success_url='/my/custom/success/url/),
+                    success_url='/my/custom/success/url/'),
                 name="login"),
 
     """

@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import autocomplete_light
 import floppyforms.__future__ as forms  # Use __future__ until 1.3
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Div
 from crispy_forms.bootstrap import StrictButton
 
 from .models import Client, Budget
@@ -39,8 +40,19 @@ class BudgetCreateForm(forms.ModelForm):
         # Custom Crispyness
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
-        btn = StrictButton('Save', type='submit', css_class='btn btn-default')
-        self.helper.add_input(btn)
+        self.helper.layout = Layout(
+            Div(
+                'name',
+                'client',
+                'amount',
+                css_class='row'
+            ),
+            Div(
+                StrictButton('Save', type='submit', css_class='btn btn-default'),
+                css_class='row'
+            ),
+
+        )
 
     class Meta:
         model = Budget

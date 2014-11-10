@@ -4,7 +4,7 @@ import autocomplete_light
 from django.core.exceptions import ValidationError
 import floppyforms.__future__ as forms  # Use __future__ until 1.3
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, ButtonHolder
+from crispy_forms.layout import Layout, Submit, Div
 from crispy_forms.bootstrap import StrictButton
 
 from .models import Show
@@ -22,7 +22,7 @@ class ShowAdminForm(autocomplete_light.ModelForm):
         exclude = []
 
 
-class ShowForm(forms.ModelForm):
+class ShowForm(autocomplete_light.ModelForm):
     """
     Base form for the Show model. Adds crispy_forms functionality in the
     __init__ function with the FormHelper class.
@@ -46,6 +46,27 @@ class ShowCreateForm(autocomplete_light.ModelForm):
 
         # Custom Crispyness
         self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    'name',
+                    'api_id',
+                    'link',
+                    'feed',
+                    'description',
+                    css_class='col-sm-6'
+                ),
+                Div(
+                    'default_vendor',
+                    'platform',
+                    'art',
+                    'tags',
+                    'notes',
+                    css_class='col-sm-6'
+                ),
+                css_class='row'
+            ),
+        )
         self.helper.add_input(Submit('save', 'Save'))
 
     def clean_api_id(self):
@@ -80,9 +101,59 @@ class ShowUpdateForm(ShowForm):
     For updating Shows. Inherits from ShowForm.
     """
 
+    def __init__(self, *args, **kwargs):
+        super(ShowUpdateForm, self).__init__(*args, **kwargs)
+
+        # Custom Crispyness
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    'name',
+                    'host',
+                    'api_id',
+                    'link',
+                    'description',
+                    css_class='col-md-5'
+                ),
+                Div(
+                    'tags',
+                    'feed',
+                    'art',
+                    'notes',
+                    css_class='col-md-5'
+                ),
+                Div(
+                    'platform',
+                    'default_vendor',
+                    'downloads_per_episode',
+                    'episodes_per_month',
+                    'active',
+                    css_class='col-md-2'
+                ),
+                css_class='row'
+            ),
+        )
+        self.helper.add_input(Submit('save', 'Save'))
+
     class Meta:
         model = Show
-        exclude = []
+        fields = [
+            'name',
+            'host',
+            'api_id',
+            'platform',
+            'tags',
+            'art',
+            'description',
+            'link',
+            'feed',
+            'episodes_per_month',
+            'downloads_per_episode',
+            'default_vendor',
+            'active',
+            'notes',
+        ]
 
 
 class ShowSearchForm(forms.Form):
@@ -113,5 +184,5 @@ class ShowSearchForm(forms.Form):
                 ),
                 css_class='row'
             ),
-            StrictButton('Search', type='submit', css_class='btn btn-default')
+            StrictButton('Search', type='submit', css_class='btn-default')
         )

@@ -52,6 +52,11 @@ class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
 
 class AdsInline(InlineFormSet):
     model = Ad
+    fields = [
+        'show',
+        'vendor',
+
+    ]
 
 
 class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
@@ -61,5 +66,7 @@ class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
     """
 
     model = Campaign
+    permission_required = 'is_staff'
+    select_related = 'client'
     form_class = CampaignCreateForm
     inlines = [AdsInline]

@@ -1,10 +1,10 @@
 Django==1.7.1
 boto==2.34.0
-Pillow==2.4.0
-django-autocomplete-light==2.0.0a18
+Pillow==2.6.1
+django-autocomplete-light==2.0.1
 django-braces==1.4.0
 django-crispy-forms==1.4.0
-django-debug-toolbar==1.2.1
+django-debug-toolbar==1.2.2
 django-extra-views==0.6.5
 django-filter==0.8
 django-floppyforms==1.2.0
@@ -13,7 +13,7 @@ django-model-utils==2.2
 django-simple-history==1.5.2
 django-taggit==0.12.2
 psycopg2==2.5.4
-pytz==2014.7
+pytz==2014.9
 requests==2.4.3
 six==1.8.0
 git+git://github.com/coagulant/django-storages-py3.git

@@ -14,7 +14,7 @@
 		<script src="{% static 'shows/scripts/dataTables.bootstrap.js' %}" type="text/javascript"></script>
 {% endblock extrahead %}
 
-{% block header %}{{ campaign.client }} - <small>{{ campaign.name }}</small><a href="{% url 'campaigns:update' show.pk %}"><button class="btn btn-default pull-right">Edit</button></a>{% endblock %}
+{% block header %}{{ campaign.client }} - <small>{{ campaign.name }}</small><a href="{% url 'campaigns:update' campaign.pk %}"><button class="btn btn-default pull-right">Edit</button></a>{% endblock %}
 
 {% block content %}
 <div class="container">
