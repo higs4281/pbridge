@@ -13,7 +13,7 @@ autocomplete_light.register(
         'placeholder': 'Start typing to search.'
     }
 )
-# This will generate a ShowAutocomplete class
+# This will generate and register a ShowAutocomplete class
 autocomplete_light.register(
     Show,
     # Just like in ModelAdmin.search_fields
@@ -26,6 +26,7 @@ autocomplete_light.register(
     },
 )
 
+# This will generate and register a HostAutocomplete class
 autocomplete_light.register(
     Host,
     search_fields=['name'],

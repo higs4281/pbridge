@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.shortcuts import get_object_or_404
 
-from .models import Platform, Show
+from .models import Platform
 from .apitools import youtube_channel, get_freebase, itunes_lookup
 
 
@@ -58,7 +58,7 @@ def it_init_data(itunes_id):
 
     tag_list = items.get('genres', [])
     api_id = items.get('trackId')
-    platform = Platform.objects.get(simple_name__iexact='itunes')
+    platform = get_object_or_404(Platform, simple_name__iexact='itunes')
     link = platform.show_base_url.format(api_id)
 
     # Show Fields (initial data)

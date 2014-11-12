@@ -31,7 +31,7 @@ class ShowForm(autocomplete_light.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ShowForm, self).__init__(*args, **kwargs)
 
-        # Custom Crispyness
+        # Custom Crispiness
         self.helper = FormHelper(self)
         self.helper.add_input(Submit('save', 'Save'))
 
@@ -44,7 +44,7 @@ class ShowCreateForm(autocomplete_light.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ShowCreateForm, self).__init__(*args, **kwargs)
 
-        # Custom Crispyness
+        # Custom Crispiness
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Div(
@@ -104,7 +104,7 @@ class ShowUpdateForm(ShowForm):
     def __init__(self, *args, **kwargs):
         super(ShowUpdateForm, self).__init__(*args, **kwargs)
 
-        # Custom Crispyness
+        # Custom Crispiness
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Div(

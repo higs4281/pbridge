@@ -7,6 +7,7 @@ from crispy_forms.layout import Submit, Layout, Div
 
 from .models import Ad
 
+autocomplete_light.autodiscover()
 
 class AdAdminForm(autocomplete_light.ModelForm):
     """

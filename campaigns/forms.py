@@ -10,6 +10,8 @@ from extra_views import InlineFormSet
 from ads.models import Ad
 from .models import Campaign
 
+autocomplete_light.autodiscover()
+
 
 class CampaignAdminForm(autocomplete_light.ModelForm):
     """
