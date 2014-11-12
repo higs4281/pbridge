@@ -37,7 +37,7 @@ class BudgetCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(BudgetCreateForm, self).__init__(*args, **kwargs)
 
-        # Custom Crispyness
+        # Custom Crispiness
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
         self.helper.layout = Layout(

@@ -1,20 +1,21 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.contrib import messages
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
-from django.views.generic import UpdateView, TemplateView, ListView, DetailView
+import django.views.generic as generic
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django_filters.views import FilterView
 import autocomplete_light
 
-from .models import Show
-from .forms import ShowCreateForm, ShowUpdateForm
+from .models import Show, Host
+from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
 from .utils import yt_init_data, it_init_data
 
 
-class NewShowTemplateView(TemplateView):
+class NewShowTemplateView(generic.TemplateView):
     template_name = 'shows/new_show.html'
 
 
@@ -63,7 +64,7 @@ class ShowCreateView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class ShowUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
-                     ShowActionMixin, UpdateView):
+                     ShowActionMixin, generic.UpdateView):
     model = Show
     permission_required = 'is_staff'
     success_msg = 'Show updated'
@@ -71,7 +72,7 @@ class ShowUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class ShowListView(LoginRequiredMixin, PermissionRequiredMixin,
-                   ListView):
+                   generic.ListView):
     model = Show
     permission_required = 'is_staff'
 
@@ -93,7 +94,8 @@ class ShowListView(LoginRequiredMixin, PermissionRequiredMixin,
         return queryset
 
 
-class ShowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class ShowDetailView(LoginRequiredMixin, PermissionRequiredMixin,
+                     generic.DetailView):
     """
     Base view for looking at a single Show object.
     """
@@ -110,4 +112,14 @@ class ShowSearchView(LoginRequiredMixin, PermissionRequiredMixin, FilterView):
     permission_required = 'is_staff'
     template_name = 'shows/show_search.html'
     filterset_class = ShowSearchFilter
-    paginate_by = 50
+
+
+class HostCreateView(LoginRequiredMixin, PermissionRequiredMixin,
+                     generic.CreateView):
+    """
+    Quick Host creation
+    """
+    model = Host
+    form_class = HostCreateForm
+    permission_required = 'is_staff'
+    success_url = reverse_lazy('close')

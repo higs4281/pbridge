@@ -15,8 +15,9 @@ body {
     margin-top: -20px;
 }
 
-#big-glyph {
-    vertical-align: -12px;
+i#plus {
+    padding-left: 5px;
+    font-size: .7em;
 }
 
 td.art {

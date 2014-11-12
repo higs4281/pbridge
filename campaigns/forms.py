@@ -1,16 +1,21 @@
 from __future__ import absolute_import, unicode_literals
 
 import autocomplete_light
-from crispy_forms.layout import HTML, Submit
+from crispy_forms.layout import HTML, Submit, Div
 import floppyforms.__future__ as forms  # Use __future__ until 1.3
 from crispy_forms.helper import FormHelper, Layout
-from crispy_forms.bootstrap import StrictButton
 from extra_views import InlineFormSet
 
 from ads.models import Ad
 from .models import Campaign
 
 autocomplete_light.autodiscover()
+
+BUDGET_PLUS = HTML(
+    """<a href="{% url 'clients:budget_create' %}" target="_blank">"""
+    '<i id="plus" class="glyphicon glyphicon-plus"></i>'
+    '</a>'
+)
 
 
 class CampaignAdminForm(autocomplete_light.ModelForm):
@@ -38,11 +43,7 @@ class CampaignCreateForm(forms.ModelForm):
             'name',
             'client',
             'budget',
-            HTML(
-                """<a href="{% url 'clients:index' %}'" target="_blank">"""
-                '<i id="big-glyph" class="glyphicon glyphicon-plus"></i>'
-                '</a><br>'
-            ),
+            BUDGET_PLUS,
         )
         self.helper.add_input(Submit("submit", "Save"))
 
@@ -67,13 +68,21 @@ class CampaignUpdateForm(autocomplete_light.ModelForm):
         # Since we have 2 forms to render, handle the <form> tag in template
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            'name',
-            'client',
-            'budget',
-            HTML(
-                """<a href="{% url 'clients:index' %}'" target="_blank">"""
-                '<i id="big-glyph" class="glyphicon glyphicon-plus"></i>'
-                '</a><br>'
+            Div(
+                Div(
+                    'name',
+                    css_class='col-md-4'
+                ),
+                Div(
+                    'client',
+                    css_class='col-md-4'
+                ),
+                Div(
+                    'budget',
+                    BUDGET_PLUS,
+                    css_class='col-md-4'
+                ),
+                css_class='row'
             ),
         )
 

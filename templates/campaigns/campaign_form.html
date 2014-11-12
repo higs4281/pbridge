@@ -9,6 +9,7 @@
     <form class="form-inline" method="post">
         {% crispy form %}
         {% for inline in inlines %}
+            <br>
             {% crispy inline inlines_helper %}
         {% endfor %}
         <div class="form-actions">

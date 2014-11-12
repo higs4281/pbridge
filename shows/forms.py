@@ -4,12 +4,18 @@ import autocomplete_light
 from django.core.exceptions import ValidationError
 import floppyforms.__future__ as forms  # Use __future__ until 1.3
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div
-from crispy_forms.bootstrap import StrictButton
+from crispy_forms.layout import Layout, Submit, Div, HTML
+from crispy_forms.bootstrap import StrictButton, AppendedText
 
-from .models import Show
+from .models import Show, Host
 
 autocomplete_light.autodiscover()
+
+HOST_PLUS = HTML(
+    """<a href="{% url 'shows:host_create' %}" target="_blank">"""
+    '<i id="plus" class="glyphicon glyphicon-plus"></i>'
+    '</a>'
+)
 
 
 class ShowAdminForm(autocomplete_light.ModelForm):
@@ -186,3 +192,23 @@ class ShowSearchForm(forms.Form):
             ),
             StrictButton('Search', type='submit', css_class='btn-default')
         )
+
+
+class HostCreateForm(forms.Form):
+    """
+    Quick Host creation form.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(HostCreateForm, self).__init__(*args, **kwargs)
+
+        # Custom Crispiness
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.add_input(Submit('save', 'Save'))
+
+    class Meta:
+        model = Host
+        fields = [
+            'name',
+        ]
