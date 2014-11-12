@@ -1,12 +1,14 @@
 from __future__ import absolute_import, unicode_literals
-from django.http import HttpResponse
 
+from django.http import HttpResponse
 from django.views.generic import TemplateView, RedirectView
+
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
 
 def close(request):
     """
-    Closes the current page. Useful for popup forms as a success_url.
+    Closes the current page. Useful for popup forms. Use for success_url.
     """
     return HttpResponse(
         '<script type="text/javascript">'
@@ -23,10 +25,13 @@ class AboutTemplateView(TemplateView):
     template_name = 'about.html'
 
 
-class DashboardView(RedirectView):
-    """ Handles traffic by directing users to the friendliest page it can
-        find for them.
+class DashboardView(LoginRequiredMixin, PermissionRequiredMixin,
+                    RedirectView):
+    """
+    Handles traffic by directing users to the friendliest page it can
+    find for them.
     """
 
+    permission_required = 'is_authenticated'
     # Currently lazy, just redirecting to shows
     pattern_name = 'shows:index'

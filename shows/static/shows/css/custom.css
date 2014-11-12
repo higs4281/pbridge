@@ -18,3 +18,8 @@ body {
 #big-glyph {
     vertical-align: -12px;
 }
+
+td.art {
+    vertical-align: middle;
+    text-align: center;
+}

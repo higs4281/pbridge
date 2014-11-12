@@ -2,6 +2,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Sum
 from django.utils.encoding import python_2_unicode_compatible
 
 from model_utils.models import TimeStampedModel
@@ -19,7 +20,7 @@ class Campaign(TimeStampedModel):
 
     @property
     def planned_spend(self):
-        return self.ad_set.sum('cost')
+        return self.ad_set.all().aggregate(Sum('cost'))['cost__sum']
 
     @property
     def planned_spend_display(self):
@@ -31,3 +32,6 @@ class Campaign(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('campaigns:detail', args=[str(self.id)])
+
+    class Meta:
+        ordering = ['-modified']

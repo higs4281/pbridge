@@ -8,11 +8,6 @@ from class_based_auth_views.views import LoginView, LogoutView
 from .views import IndexView, AboutTemplateView, DashboardView
 from .forms import LoginForm
 
-import autocomplete_light
-
-# import every app/autocomplete_light_registry.py
-autocomplete_light.autodiscover()
-
 admin.autodiscover()
 
 urlpatterns = [

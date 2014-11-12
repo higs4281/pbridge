@@ -1,4 +1,4 @@
-{% extends 'base_shows.html' %}
+{% extends 'base_campaigns.html' %}
 
 {% load crispy_forms_tags %}
 
@@ -6,7 +6,14 @@
 
 {% block content %}
 <div class="container">
-{% crispy form %}
-<br>
+    <form class="form-inline" method="post">
+        {% crispy form %}
+        {% for inline in inlines %}
+            {% crispy inline inlines_helper %}
+        {% endfor %}
+        <div class="form-actions">
+            <input type="submit" name="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
 {% endblock content %}

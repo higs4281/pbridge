@@ -19,6 +19,9 @@ class Client(ContactInfoMixin, TimeStampedModel):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class Budget(TimeStampedModel):
     name = models.CharField(max_length=255)

@@ -1,10 +1,11 @@
-{% extends "base_shows.html" %}
+{% extends "base_campaigns.html" %}
 
 {% load staticfiles %}
 
 {% block stylesheets %}
 {{ block.super }}
 		<link href="{% static 'shows/css/rowlink.css' %}" rel="stylesheet">
+		<link href="{% static 'shows/css/dataTables.bootstrap.css' %}" rel="stylesheet">
 {% endblock stylesheets %}
 
 {% block extrahead %}
@@ -32,7 +33,7 @@
 		<tbody data-link="row" class="rowlink">
 		{% for campaign in campaign_list %}
 		<tr>
-			<td>
+			<td class="art">
                 <a href="{{ campaign.get_absolute_url }}">
                 {% if campaign.client.logo %}
                     <img src="{{ campaign.client.logo.url }}" class="img-rounded" height="64">
@@ -53,7 +54,9 @@
 <script>
 /* Add DataTables functionality. See http://www.datatables.net */
 $(function() {
-    $("#campaignTable").dataTable();
+    $("#campaignTable").dataTable({
+        "paging": false
+    });
 })
 </script>
 {% endblock content %}

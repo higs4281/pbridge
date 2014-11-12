@@ -3,12 +3,11 @@ from __future__ import absolute_import, unicode_literals
 from django.views.generic import DetailView, CreateView, ListView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
-from extra_views import InlineFormSet, UpdateWithInlinesView
-from ads.models import Ad
+from extra_views import UpdateWithInlinesView
 
 from shows.mixins import SelectRelatedMixin, PrefetchRelatedMixin
 from .models import Campaign
-from .forms import CampaignCreateForm
+from .forms import CampaignCreateForm, AdsInline, AdsInlineFormHelper, CampaignUpdateForm
 
 
 class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
@@ -50,15 +49,6 @@ class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
         return context
 
 
-class AdsInline(InlineFormSet):
-    model = Ad
-    fields = [
-        'show',
-        'vendor',
-
-    ]
-
-
 class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
                          SelectRelatedMixin, UpdateWithInlinesView):
     """
@@ -68,5 +58,11 @@ class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
     model = Campaign
     permission_required = 'is_staff'
     select_related = 'client'
-    form_class = CampaignCreateForm
+    form_class = CampaignUpdateForm
     inlines = [AdsInline]
+
+    def get_context_data(self, **kwargs):
+        context = super(CampaignUpdateView, self).get_context_data(**kwargs)
+        helper = AdsInlineFormHelper()
+        context['inlines_helper'] = helper
+        return context

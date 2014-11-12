@@ -1,10 +1,11 @@
-{% extends "base_shows.html" %}
+{% extends "base_campaigns.html" %}
 
 {% load staticfiles %}
 
 {% block stylesheets %}
 {{ block.super }}
 		<link href="{% static 'shows/css/rowlink.css' %}" rel="stylesheet">
+		<link href="{% static 'shows/css/dataTables.bootstrap.css' %}" rel="stylesheet">
 {% endblock stylesheets %}
 
 {% block extrahead %}
@@ -24,9 +25,9 @@
 		<thead>
 			<tr>
 				<th class="text-center">Art</th>
-				<th>Vendor</th>
 				<th>Name</th>
                 <th>Date</th>
+				<th>Vendor</th>
 				<th>Format</th>
 				<th>Proj. Views</th>
 				<th>Cost</th>
@@ -35,10 +36,10 @@
 		<tbody data-link="row" class="rowlink">
 		{% for ad in ad_list %}
 		<tr>
-			<td><a href="{{ ad.get_absolute_url }}"><img src="{{ ad.show.art }}" class="img-rounded" width="64" height="64"></a></td>
-			<td>{{ ad.vendor }}</td>
+			<td class="art"><a href="{{ ad.get_absolute_url }}"><img src="{{ ad.show.art }}" class="img-rounded" width="64" height="64"></a></td>
 			<td>{{ ad.show.name }}</td>
 			<td>{{ ad.scheduled_date }}</td>
+			<td>{{ ad.vendor }}</td>
 			<td>{{ ad.show.platform }}</td>
             <td>{{ ad.projected_views }}</td>
             <td>{{ ad.dollar_amount }}</td>
@@ -52,7 +53,9 @@
 <script>
 /* Add DataTables functionality. See http://www.datatables.net */
 $(function() {
-    $("#adTable").dataTable();
+    $("#adTable").dataTable({
+        "paging": false
+    });
 })
 </script>
 {% endblock content %}

@@ -5,7 +5,7 @@
 {% block header %}{{ ad }}<a href="{% url 'ads:update' ad.pk %}"><button class="btn btn-default pull-right">Edit</button></a>{% endblock %}
 
 {% block content %}
-<div class="content">
+<div class="container">
     <div class="col-lg-3">
         <a href="{{ ad.show.art }}">
             <img class="img-rounded img-responsive" src="{{ ad.show.art }}" alt="{{ ad.show.name }}" />
