@@ -16,14 +16,15 @@ def yt_init_data(channel_id):
 
     data = youtube_channel(channel_id, part='id,snippet,topicDetails').json()
 
-    items = data.get('items', [{}])[0]
-    if not items:
+    item_list = data.get('items', [{}])
+    if not item_list:
         return None
 
+    items = item_list[0]
     snippet = items.get('snippet', {})
     thumbs = snippet.get('thumbnails', {})
     api_id = items.get('id')
-    topic_id_list = items.get('topicDetails').get('topicIds')
+    topic_id_list = items.get('topicDetails', {}).get('topicIds')
     freebase_tag_list = get_freebase(topic_id_list)
     platform = get_object_or_404(Platform, simple_name__iexact='youtube')
     link = platform.show_base_url.format(api_id)

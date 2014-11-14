@@ -15,7 +15,12 @@
 		<script src="{% static 'shows/scripts/dataTables.bootstrap.js' %}" type="text/javascript"></script>
 {% endblock extrahead %}
 
-{% block header %}Shows<a href="{% url 'shows:search' %}"><button class="btn btn-default pull-right">Advanced Search</button></a>{% endblock %}
+{% block header %}Shows
+    <div class="pull-right">
+        <a href="{% url 'shows:new' %}"><button class="btn btn-default">Add a new show</button></a>
+        <a href="{% url 'shows:search' %}"><button class="btn btn-default">Advanced Search</button></a>
+    </div>
+{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -27,6 +32,7 @@
 				<th>Name</th>
 				<th>Type</th>
 				<th>Vendor</th>
+				<th>Host</th>
 				<th>Description</th>
 			</tr>
 		</thead>
@@ -37,6 +43,7 @@
 			<td>{{ show.name }}</td>
 			<td>{{ show.platform }}</td>
 			<td>{{ show.default_vendor }}</td>
+			<td>{{ show.host }}</td>
 			<td>{{ show.description|truncatechars:400 }}</td>
 		</tr>
 		{% endfor %}

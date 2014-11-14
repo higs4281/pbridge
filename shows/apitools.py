@@ -73,6 +73,8 @@ def get_freebase(topic_id_list):
     Returns Freebase tag names for a list of topic ID's.
     """
 
+    if not topic_id_list:
+        return []
     tags = []
     params = {
         'key': GOOGLE_API_KEY,

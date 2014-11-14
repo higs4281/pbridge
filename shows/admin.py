@@ -21,7 +21,7 @@ class TrackingInline(admin.TabularInline):
 
 @admin.register(Show)
 class ShowAdmin(SimpleHistoryAdmin):
-    search_fields = ('name', 'host', 'default_vendor')
+    search_fields = ('name',)
     list_display = ('name', 'default_vendor')
 
     # autocomplete_light functionality

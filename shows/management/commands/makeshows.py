@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import csv
-import re
 import os.path
 
 from django.core.management.base import BaseCommand
@@ -19,21 +18,17 @@ class Command(BaseCommand):
             'show_name or an api_id is required. If not given api_id, '
             "I hope you're feeling lucky.")
 
-    def add_arguments(self, parser):
-        """
-        Gathers the optional filename arg from the command line.
-        """
-
-        parser.add_argument('filename', default='makeshows.csv')
-
     def handle(self, *args, **options):
-        fn = options['filename']
+        if args:
+            fn = args[0]
+        else:
+            fn = 'makeshows.csv'
         if os.path.isfile(fn):
             # If the file exists, make the shows
             with open(fn, newline='') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    make_show(row)
+                    make_show(self, row)
         else:
             # If the file doesn't exist, make a template and do nothing
             with open(fn, 'w', newline='') as f:
@@ -43,7 +38,7 @@ class Command(BaseCommand):
                 self.stdout.write(msg)
 
 
-def make_show(csv_dict_row):
+def make_show(command, csv_dict_row):
     """
     Creates a new Show object from a dict of show info. Attempts to get
     additional info from an API, if possible.
@@ -52,17 +47,36 @@ def make_show(csv_dict_row):
 
     platform = csv_dict_row['platform']
     api_id = csv_dict_row['api_id']
+
+    # Make sure the show doesn't already exists to avoid duplicates.
+    # Hit the database for each show *on purpose*, to ensure we haven't made
+    # a duplicate since the command began
+    api_id_exists = Show.objects.filter(api_id=api_id)
+    if api_id_exists:
+        command.stdout.write('Show already exists: {}'.format(api_id))
+        return
     show_data = {}
 
     # Grab API data if able
     if platform.lower() in ('it', 'itunes'):
         if api_id:
             api_data = it_init_data(api_id)
-            show_data.update(api_data)
+            if api_data:
+                show_data.update(api_data)
     if platform.lower() in ('yt', 'youtube'):
         if api_id:
             api_data = yt_init_data(api_id)
-            show_data.update(api_data)
+            if api_data:
+                show_data.update(api_data)
 
-    s = Show(show_data)
-    s.save()
+    # Make the show
+    if show_data:
+        # Couldn't get this to work with 'tags' in the dict, so pop them
+        # and add them after the save.
+        tags = show_data.pop('tags').split(', ')
+        s = Show(**show_data)
+        s.save()
+        s.tags.add(*tags)
+        command.stdout.write('Show created: {}'.format(s))
+    else:
+        command.stdout.write('No show found for: {}'.format(api_id))

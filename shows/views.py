@@ -10,7 +10,7 @@ import autocomplete_light
 from .models import Show, Host
 from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
-from .mixins import SuccessMessageMixin
+from .mixins import SuccessMessageMixin, PrefetchRelatedMixin
 from .utils import yt_init_data, it_init_data
 
 
@@ -52,9 +52,10 @@ class ShowUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class ShowListView(LoginRequiredMixin, PermissionRequiredMixin,
-                   generic.ListView):
+                   PrefetchRelatedMixin, generic.ListView):
     model = Show
     permission_required = 'is_staff'
+    prefetch_related = ['platform', 'host', 'default_vendor']
 
     def get_queryset(self):
         # FROM 2 SCOOPS 1.6

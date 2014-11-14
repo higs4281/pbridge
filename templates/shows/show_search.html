@@ -28,7 +28,6 @@
 			<tr>
 				<th style="text-align: center">Art</th>
 				<th>Name</th>
-				<th>Type</th>
 				<th>Vendor</th>
 				<th>Description</th>
 			</tr>
@@ -38,7 +37,6 @@
 		<tr>
 			<td><a href="{{ show.get_absolute_url }}"><img src="{{ show.art }}" class="img-rounded"  width="64" height="64"></a></td>
 			<td>{{ show.name }}</td>
-			<td>{{ show.platform }}</td>
 			<td>{{ show.default_vendor }}</td>
 			<td>{{ show.description|truncatechars:400 }}</td>
 		</tr>
