@@ -11,12 +11,6 @@ from .models import Campaign
 
 autocomplete_light.autodiscover()
 
-BUDGET_PLUS = HTML(
-    """<a href="{% url 'clients:budget_create' %}" target="_blank">"""
-    '<i id="plus" class="glyphicon glyphicon-plus"></i>'
-    '</a>'
-)
-
 
 class CampaignAdminForm(autocomplete_light.ModelForm):
     """
@@ -28,7 +22,7 @@ class CampaignAdminForm(autocomplete_light.ModelForm):
         exclude = []
 
 
-class CampaignCreateForm(forms.ModelForm):
+class CampaignCreateForm(autocomplete_light.ModelForm):
     """
 
     """
@@ -39,13 +33,6 @@ class CampaignCreateForm(forms.ModelForm):
         # Custom Crispiness
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
-        self.helper.layout = Layout(
-            'name',
-            'client',
-            'budget',
-            BUDGET_PLUS,
-        )
-        self.helper.add_input(Submit("submit", "Save"))
 
     class Meta:
         model = Campaign
@@ -79,7 +66,6 @@ class CampaignUpdateForm(autocomplete_light.ModelForm):
                 ),
                 Div(
                     'budget',
-                    BUDGET_PLUS,
                     css_class='col-md-4'
                 ),
                 css_class='row'
@@ -105,6 +91,8 @@ class AdsInline(InlineFormSet):
         'cost',
         'cost_type',
     ]
+    form_class = autocomplete_light.ModelForm
+    extra = 3
 
 
 class AdsInlineFormHelper(FormHelper):

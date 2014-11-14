@@ -194,7 +194,7 @@ class ShowSearchForm(forms.Form):
         )
 
 
-class HostCreateForm(forms.Form):
+class HostCreateForm(forms.ModelForm):
     """
     Quick Host creation form.
     """

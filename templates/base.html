@@ -46,7 +46,7 @@
                 {% block extranav %}
                     <ul class="nav navbar-nav">
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                            <li><a href="{% url 'dashboard' %}"><strong>Dashboard</strong></a></li>
                         {% endif %}
                     </ul>
                 {% endblock %}

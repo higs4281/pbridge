@@ -1,7 +1,5 @@
 from __future__ import absolute_import, unicode_literals
 
-from django.contrib import messages
-from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 import django.views.generic as generic
 
@@ -12,6 +10,7 @@ import autocomplete_light
 from .models import Show, Host
 from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
+from .mixins import SuccessMessageMixin
 from .utils import yt_init_data, it_init_data
 
 
@@ -19,30 +18,11 @@ class NewShowTemplateView(generic.TemplateView):
     template_name = 'shows/new_show.html'
 
 
-class ShowActionMixin(object):
-    """
-    A mixin for gathering code that is common to both the create and
-    update views for the Shows model
-    """
-
-    exclude = []
-
-    @property
-    def success_msg(self):
-        return NotImplemented
-
-    def form_valid(self, form):
-        messages.info(self.request, self.success_msg)
-        return super(ShowActionMixin, self).form_valid(form)
-
-
 class ShowCreateView(LoginRequiredMixin, PermissionRequiredMixin,
-                     ShowActionMixin, autocomplete_light.CreateView):
+                     SuccessMessageMixin, generic.CreateView):
     """
     Base view for creating a show. Allows pre-filled data to
     be generated if both 'platform' and 'id' are passed in the URL.
-    Currently inheriting from autocomplete_light's CreateView in anticipation
-    of popup integration ala RelatedFieldWidgetWrapper.
     """
 
     model = Show
@@ -64,7 +44,7 @@ class ShowCreateView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class ShowUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
-                     ShowActionMixin, generic.UpdateView):
+                     SuccessMessageMixin, generic.UpdateView):
     model = Show
     permission_required = 'is_staff'
     success_msg = 'Show updated'
@@ -115,11 +95,16 @@ class ShowSearchView(LoginRequiredMixin, PermissionRequiredMixin, FilterView):
 
 
 class HostCreateView(LoginRequiredMixin, PermissionRequiredMixin,
-                     generic.CreateView):
+                     autocomplete_light.CreateView):
     """
-    Quick Host creation
+    Popup Host creation
     """
     model = Host
     form_class = HostCreateForm
     permission_required = 'is_staff'
-    success_url = reverse_lazy('close')
+
+
+class HostDetailView(LoginRequiredMixin, PermissionRequiredMixin,
+                     generic.DetailView):
+    model = Host
+    permission_required = 'is_staff'

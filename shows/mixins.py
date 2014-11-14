@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.contrib import messages
 
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
@@ -63,3 +64,19 @@ class ContactInfoMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class SuccessMessageMixin(object):
+    """
+    A mixin for gathering code that is common to create and update views.
+    """
+
+    exclude = []
+
+    @property
+    def success_msg(self):
+        return NotImplemented
+
+    def form_valid(self, form):
+        messages.info(self.request, self.success_msg)
+        return super(SuccessMessageMixin, self).form_valid(form)

@@ -34,4 +34,5 @@ autocomplete_light.register(
         'data-autocomplete-minimum-characters': 2,
         'placeholder': 'Start typing to search.',
     },
+    add_another_url_name='shows:host_create'
 )

@@ -29,4 +29,5 @@ autocomplete_light.register(
         'data-autocomplete-minimum-characters': 0,
         'placeholder': 'Start typing to search.',
     },
+    add_another_url_name='clients:budget_create'
 )

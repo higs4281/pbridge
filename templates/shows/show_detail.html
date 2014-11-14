@@ -12,7 +12,7 @@
     <div class="col-lg-9">
         <div class="row">
             <p class="text-right col-sm-2"><strong>Host</strong></p>
-            <p class="col-sm-10">{% if show.host %}{{ show.host.name }}{% endif %}</p>
+            <p class="col-sm-10">{% if show.host %}<a href="{{ show.host.get_absolute_url }}">{{ show.host.name }}</a>{% endif %}</p>
         </div>
         <div class="row">
             <p class="text-right col-sm-2"><strong>Description</strong></p>

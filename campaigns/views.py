@@ -5,13 +5,13 @@ from django.views.generic import DetailView, CreateView, ListView
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from extra_views import UpdateWithInlinesView
 
-from shows.mixins import SelectRelatedMixin, PrefetchRelatedMixin
+import shows.mixins as mixins
 from .models import Campaign
-from .forms import CampaignCreateForm, AdsInline, AdsInlineFormHelper, CampaignUpdateForm
+from . import forms
 
 
 class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
-                       PrefetchRelatedMixin, ListView):
+                       mixins.PrefetchRelatedMixin, ListView):
     """
     Base view for a list of campaigns.
     """
@@ -22,18 +22,19 @@ class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin,
-                         CreateView):
+                         mixins.SuccessMessageMixin, CreateView):
     """
 
     """
 
     model = Campaign
-    form_class = CampaignCreateForm
+    form_class = forms.CampaignCreateForm
+    success_msg = 'Campaign created'
     permission_required = 'is_staff'
 
 
 class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
-                         SelectRelatedMixin, DetailView):
+                         mixins.SelectRelatedMixin, DetailView):
     """
     Base view for looking at a Campaign
     """
@@ -50,7 +51,8 @@ class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
-                         SelectRelatedMixin, UpdateWithInlinesView):
+                         mixins.SuccessMessageMixin, mixins.SelectRelatedMixin,
+                         UpdateWithInlinesView):
     """
     Update view for Campaigns. Includes Ads inline.
     """
@@ -58,11 +60,12 @@ class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
     model = Campaign
     permission_required = 'is_staff'
     select_related = 'client'
-    form_class = CampaignUpdateForm
-    inlines = [AdsInline]
+    form_class = forms.CampaignUpdateForm
+    success_msg = 'Campaign updated'
+    inlines = [forms.AdsInline]
 
     def get_context_data(self, **kwargs):
         context = super(CampaignUpdateView, self).get_context_data(**kwargs)
-        helper = AdsInlineFormHelper()
+        helper = forms.AdsInlineFormHelper()
         context['inlines_helper'] = helper
         return context

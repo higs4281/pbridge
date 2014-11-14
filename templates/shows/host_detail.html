@@ -1,0 +1,30 @@
+{% extends "base_shows.html" %}
+
+{% block header %}{{ host.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <p>
+        <strong>Email: </strong>{{ host.email }}
+    </p>
+    <p>
+        <strong>Phone: </strong>{{ host.phone }}
+    </p>
+    <p>
+        <strong>Address: </strong>
+    </p>
+    {% if host.address_1 %}
+        <p>{{ host.address_1 }}</p>
+        <p>{{ host.address_2 }}</p>
+        <p>{{ host.city }}, {{ host.state }} {{ host.zip }}</p>
+    {% endif %}
+    <p>
+        <strong>Shows: </strong>
+        <ul>
+        {% for show in host.show_set.all %}
+            <li><a href="{{ show.get_absolute_url }}">{{ show.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </p>
+</div>
+{% endblock content %}

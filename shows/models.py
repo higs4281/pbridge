@@ -50,6 +50,13 @@ class Host(ContactInfoMixin, TimeStampedModel):
     name = models.CharField('host name', max_length=255)
     history = HistoricalRecords()
 
+    def get_absolute_url(self):
+        return reverse('shows:host_detail', args=[str(self.id)])
+
+    @python_2_unicode_compatible
+    def __str__(self):
+        return self.name
+
 
 class Show(TimeStampedModel):
     name = models.CharField('show name', max_length=255)
