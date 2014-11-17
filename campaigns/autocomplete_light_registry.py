@@ -13,6 +13,6 @@ autocomplete_light.register(
     # javascript attribute widget.autocomplete.placeholder.
     attrs={
         'data-autocomplete-minimum-characters': 0,
-        'placeholder': 'Start typing to search.',
+        'placeholder': 'Campaign search',
     },
 )

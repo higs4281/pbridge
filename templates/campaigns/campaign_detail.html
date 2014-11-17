@@ -30,7 +30,7 @@
 				<th>Format</th>
 				<th>Proj. Views</th>
 				<th>Cost</th>
-                <th>IO</th>
+                <th class="text-center">IO</th>
 			</tr>
 		</thead>
 		<tbody data-link="row" class="rowlink">
@@ -42,7 +42,7 @@
                 <td>{{ ad.show.platform }}</td>
                 <td>{{ ad.projected_views }}</td>
                 <td>{{ ad.dollar_amount }}</td>
-                <td class="rowlink-skip">
+                <td class="rowlink-skip text-center">
                     {% if ad.order.insertion_order %}
                         <a href="{{ ad.order.insertion_order.url }}"><img src="{% static 'shows/img/pdficon_small.png' %}" /></a>
                     {% else %}

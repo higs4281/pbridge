@@ -6,7 +6,7 @@ from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from extra_views import UpdateWithInlinesView
 
 import shows.mixins as mixins
-from .models import Campaign
+from . import models
 from . import forms
 
 
@@ -16,7 +16,7 @@ class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
     Base view for a list of campaigns.
     """
 
-    model = Campaign
+    model = models.Campaign
     permission_required = 'is_staff'
     prefetch_related = ['client', 'budget']
 
@@ -27,7 +27,7 @@ class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin,
 
     """
 
-    model = Campaign
+    model = models.Campaign
     form_class = forms.CampaignCreateForm
     template_name = 'campaigns/campaign_create.html'
     success_msg = 'Campaign created'
@@ -40,7 +40,7 @@ class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
     Base view for looking at a Campaign
     """
 
-    model = Campaign
+    model = models.Campaign
     permission_required = 'is_staff'
     select_related = 'ad'
 
@@ -58,7 +58,7 @@ class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
     Update view for Campaigns. Includes Ads inline.
     """
 
-    model = Campaign
+    model = models.Campaign
     permission_required = 'is_staff'
     select_related = 'client'
     form_class = forms.CampaignUpdateForm

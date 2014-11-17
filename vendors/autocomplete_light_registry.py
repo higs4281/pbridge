@@ -13,16 +13,16 @@ autocomplete_light.register(
     # javascript attribute widget.autocomplete.placeholder.
     attrs={
         'data-autocomplete-minimum-characters': 2,
-        'placeholder': 'Start typing to search.',
+        'placeholder': 'Vendor search',
     },
 )
 
-autocomplete_light.register(
-    models.Order,
-    search_fields=['name'],
-    attrs={
-        'data-autocomplete-minimum-characters': 2,
-        'placeholder': 'Start typing to search.',
-    },
-    add_another_url_name='vendors:order_create',
-)
+# autocomplete_light.register(
+#     models.Order,
+#     search_fields=['name'],
+#     attrs={
+#         'data-autocomplete-minimum-characters': 2,
+#         'placeholder': 'Start typing to search.',
+#     },
+#     add_another_url_name='vendors:order_create',
+# )

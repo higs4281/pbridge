@@ -49,3 +49,6 @@ class Order(TimeStampedModel):
     @python_2_unicode_compatible
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-modified']

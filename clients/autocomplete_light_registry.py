@@ -14,7 +14,7 @@ autocomplete_light.register(
     # javascript attribute widget.autocomplete.placeholder.
     attrs={
         'data-autocomplete-minimum-characters': 0,
-        'placeholder': 'Start typing to search.',
+        'placeholder': 'Client search',
     },
 )
 
@@ -27,7 +27,7 @@ autocomplete_light.register(
     # javascript attribute widget.autocomplete.placeholder.
     attrs={
         'data-autocomplete-minimum-characters': 0,
-        'placeholder': 'Start typing to search.',
+        'placeholder': 'Budget search',
     },
     add_another_url_name='clients:budget_create'
 )

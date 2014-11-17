@@ -21,7 +21,7 @@ autocomplete_light.register(
     # javascript attribute widget.autocomplete.placeholder.
     attrs={
         'data-autocomplete-minimum-characters': 2,
-        'placeholder': 'Start typing to search.',
+        'placeholder': 'Show search',
     },
 )
 
@@ -31,7 +31,7 @@ autocomplete_light.register(
     search_fields=['name'],
     attrs={
         'data-autocomplete-minimum-characters': 2,
-        'placeholder': 'Start typing to search.',
+        'placeholder': 'Host search',
     },
     add_another_url_name='shows:host_create'
 )
