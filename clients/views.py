@@ -1,8 +1,7 @@
 from __future__ import absolute_import, unicode_literals
-from django.http import HttpResponse
+import autocomplete_light
 
-from django.views.generic import DetailView, ListView, CreateView
-from django.core.urlresolvers import reverse_lazy
+from django.views.generic import DetailView, ListView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -31,7 +30,7 @@ class ClientListView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class BudgetCreateView(LoginRequiredMixin, PermissionRequiredMixin,
-                       CreateView):
+                       autocomplete_light.CreateView):
     """
     Quick Budget creation.
     """
@@ -39,4 +38,3 @@ class BudgetCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     model = Budget
     form_class = BudgetCreateForm
     permission_required = 'is_staff'
-    success_url = reverse_lazy('close')

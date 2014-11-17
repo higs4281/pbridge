@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^campaigns/', include('campaigns.urls', namespace='campaigns')),
     url(r'^clients/', include('clients.urls', namespace='clients')),
     url(r'^ads/', include('ads.urls', namespace='ads')),
+    url(r'^vendors/', include('vendors.urls', namespace='vendors')),
     
 ]

@@ -9,6 +9,7 @@ from .models import Ad
 
 autocomplete_light.autodiscover()
 
+
 class AdAdminForm(autocomplete_light.ModelForm):
     """
     Adds autocomplete_light functionality to admin forms for the Django Admin site.
@@ -43,7 +44,7 @@ class AdCreateForm(forms.ModelForm):
         ]
 
 
-class AdUpdateForm(forms.ModelForm):
+class AdUpdateForm(autocomplete_light.ModelForm):
     """
     For updating Ads.
     """
@@ -63,26 +64,26 @@ class AdUpdateForm(forms.ModelForm):
                     css_class='col-md-5'
                 ),
                 Div(
-                    'scheduled_date',
                     'cost',
                     'projected_views',
                     'order',
                     'episode',
                     'timestamp',
+                    'notes',
                     css_class='col-md-5'
                 ),
                 Div(
+                    'scheduled_date',
                     'views_guaranteed',
                     'cost_type',
                     'verified',
                     'makegood_needed',
-                    'notes',
                     css_class='col-md-2'
                 ),
                 css_class='row'
             )
         )
-        # self.helper.add_input(Submit('save', 'Save'))
+        self.helper.add_input(Submit('save', 'Save'))
 
     class Meta:
         model = Ad

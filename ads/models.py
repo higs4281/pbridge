@@ -45,7 +45,7 @@ class Ad(TimeStampedModel):
         choices=COST_TYPE_CHOICES,
         default=FLATRATE,
     )
-    order = models.ManyToManyField(Order, null=True, blank=True)
+    order = models.ForeignKey(Order, null=True, blank=True)
     instructions = models.TextField('special instructions', blank=True)
     episode = models.ForeignKey(Episode, null=True, blank=True)
     timestamp = models.CharField(max_length=31, blank=True)

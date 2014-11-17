@@ -33,6 +33,7 @@ class CampaignCreateForm(autocomplete_light.ModelForm):
         # Custom Crispiness
         self.helper = FormHelper(self)
         self.helper.form_class = 'form-inline'
+        self.helper.add_input(Submit('save', 'Save'))
 
     class Meta:
         model = Campaign
@@ -90,9 +91,10 @@ class AdsInline(InlineFormSet):
         'vendor',
         'cost',
         'cost_type',
+        'order',
     ]
     form_class = autocomplete_light.ModelForm
-    extra = 3
+    extra = 8
 
 
 class AdsInlineFormHelper(FormHelper):

@@ -1,5 +1,4 @@
-from __future__ import absolute_import
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 import autocomplete_light
 from taggit.models import Tag
@@ -17,7 +16,7 @@ autocomplete_light.register(
 autocomplete_light.register(
     Show,
     # Just like in ModelAdmin.search_fields
-    search_fields=['name', 'host', 'default_vendor'],
+    search_fields=['name'],
     # This will actually html attribute data-placeholder which will set
     # javascript attribute widget.autocomplete.placeholder.
     attrs={

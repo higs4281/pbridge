@@ -29,6 +29,7 @@ class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin,
 
     model = Campaign
     form_class = forms.CampaignCreateForm
+    template_name = 'campaigns/campaign_create.html'
     success_msg = 'Campaign created'
     permission_required = 'is_staff'
 

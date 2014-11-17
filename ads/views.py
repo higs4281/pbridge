@@ -1,47 +1,17 @@
 from __future__ import absolute_import, unicode_literals
 
-from django.contrib import messages
 from django.db.models import Q
-from django.views.generic import CreateView, UpdateView, ListView, DetailView
+from django.views.generic import UpdateView, ListView, DetailView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Ad
-from .forms import AdCreateForm, AdUpdateForm
-
-
-class AdActionMixin(object):
-    """
-    A mixin for gathering code that is common to both the create and
-    update views for the Ad model
-    """
-
-    exclude = []
-
-    @property
-    def success_msg(self):
-        return NotImplemented
-
-    def form_valid(self, form):
-        messages.info(self.request, self.success_msg)
-        return super(AdActionMixin, self).form_valid(form)
-
-
-class AdCreateView(LoginRequiredMixin, PermissionRequiredMixin,
-                   AdActionMixin, CreateView):
-    """
-    Base view for creating an ad. Allows pre-filled data to
-    be generated if both 'platform' and 'id' are passed in the URL.
-    """
-
-    model = Ad
-    permission_required = 'is_staff'
-    success_msg = 'Ad created'
-    form_class = AdCreateForm
+from .forms import AdUpdateForm
+from shows.mixins import SuccessMessageMixin
 
 
 class AdUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
-                   AdActionMixin, UpdateView):
+                   SuccessMessageMixin, UpdateView):
     model = Ad
     permission_required = 'is_staff'
     success_msg = 'Show updated'

@@ -15,6 +15,7 @@ from shows.mixins import ContactInfoMixin
 class Vendor(ContactInfoMixin, TimeStampedModel):
     name = models.CharField('vendor name', max_length=255)
     contact_name = models.CharField(max_length=255, blank=True)
+    logo = models.FileField(upload_to='img', blank=True)
     name_to_clients = models.CharField(
         'default name to clients',
         max_length=255,
@@ -42,7 +43,7 @@ class Order(TimeStampedModel):
     name = models.CharField('order name', max_length=255)
     vendor = models.ForeignKey(Vendor)
     client = models.ForeignKey(Client)
-    insertion_order = models.FileField('signed insertion order', blank=True)
+    insertion_order = models.FileField('signed insertion order', upload_to='doc', blank=True)
     history = HistoricalRecords()
 
     @python_2_unicode_compatible

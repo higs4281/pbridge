@@ -1,12 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
 import autocomplete_light
-# Use floppyforms.__future__ for seamless modelform functionality (until 1.3)
-import floppyforms.__future__ as forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-from .models import Vendor, Order
+from .models import Order
 
 
 class OrderAdminForm(autocomplete_light.ModelForm):
@@ -17,3 +15,25 @@ class OrderAdminForm(autocomplete_light.ModelForm):
     class Meta:
         model = Order
         exclude = []
+
+
+class OrderCreateForm(autocomplete_light.ModelForm):
+    """
+    Popup Order creation form
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(OrderCreateForm, self).__init__(*args, **kwargs)
+
+        # Custom Crispiness
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.add_input(Submit('save', 'Save'))
+
+    class Meta:
+        model = Order
+        fields = [
+            'name',
+            'vendor',
+            'client',
+        ]
