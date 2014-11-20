@@ -1,5 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 
+from time import mktime
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404
 
 from .models import Platform
@@ -71,5 +74,17 @@ def it_init_data(itunes_id):
         'link': link,
         'feed': items.get('feedUrl'),
         'tags': ', '.join(tag_list),
+    }
+    return d
+
+
+def it_episode_data(rssEntry):
+    # Date has to be restructured to a datetime object
+    rss_struct_time = rssEntry.published_parsed
+    date = datetime.fromtimestamp(mktime(rss_struct_time))
+    d = {
+        'date': date,
+        'link': rssEntry.link,
+        'details': rssEntry.description,
     }
     return d

@@ -8,6 +8,7 @@ Written in Python 3.4.
 from __future__ import unicode_literals
 
 import requests
+import feedparser
 from django.conf import settings
 
 GOOGLE_API_KEY = settings.GOOGLE_API_KEY
@@ -95,3 +96,13 @@ def get_freebase(topic_id_list):
         if name:
             tags.append(name)
     return tags
+
+
+class RSSFeed:
+    """
+    Base class for dealing with iTunes RSS feeds, which have more
+    info than the iTunes API can provide.
+    """
+
+    def __init__(self, url):
+        self.feed = feedparser.parse(url)
