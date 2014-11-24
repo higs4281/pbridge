@@ -44,14 +44,15 @@ INSTALLED_APPS = (
     'ads',
     # 3rd party packages
     'grappelli',
-    'autocomplete_light',
     'django.contrib.admin',
+    'autocomplete_light',
     'taggit',
     'crispy_forms',
     'floppyforms',
     'simple_history',
     'django_filters',
     'storages',
+    'sorl.thumbnail',
 )
 
 MIDDLEWARE_CLASSES = (
