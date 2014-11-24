@@ -5,6 +5,7 @@
 {% block stylesheets %}
 {{ block.super }}
 		<link href="{% static 'shows/css/rowlink.css' %}" rel="stylesheet">
+		<link href="{% static 'shows/css/dataTables.bootstrap.css' %}" rel="stylesheet">
 {% endblock stylesheets %}
 
 {% block extrahead %}
@@ -23,7 +24,7 @@
 		<thead>
 			<tr>
 				<th class="art">Verified</th>
-				<th>Client</th>
+				<th class="art">Client</th>
 				<th>Show</th>
                 <th>Scheduled Date</th>
 				<th>Cost</th>

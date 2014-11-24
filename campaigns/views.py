@@ -35,32 +35,32 @@ class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
-                         mixins.SelectRelatedMixin, DetailView):
+                         DetailView):
     """
     Base view for looking at a Campaign
     """
 
     model = models.Campaign
     permission_required = 'is_staff'
-    select_related = 'ad'
 
     def get_context_data(self, **kwargs):
         context = super(CampaignDetailView, self).get_context_data()
-        ad_list = self.object.ad_set.all().order_by('vendor__name', 'show__name')
+        ad_list = self.object.ad_set.all().prefetch_related(
+            'vendor', 'show', 'show__platform'
+        ).order_by('vendor__name', 'show__name')
         context['ad_list'] = ad_list
         return context
 
 
 class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
-                         mixins.SuccessMessageMixin, mixins.SelectRelatedMixin,
-                         UpdateWithInlinesView):
+                         mixins.SuccessMessageMixin, UpdateWithInlinesView):
     """
     Update view for Campaigns. Includes Ads inline.
     """
 
     model = models.Campaign
     permission_required = 'is_staff'
-    select_related = 'client'
+    # prefetch_related = ['ad_set']
     form_class = forms.CampaignUpdateForm
     success_msg = 'Campaign updated'
     inlines = [forms.AdsInline]

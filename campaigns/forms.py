@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import autocomplete_light
-from crispy_forms.layout import HTML, Submit, Div
+from crispy_forms.layout import Submit, Div
 import floppyforms.__future__ as forms  # Use __future__ until 1.3
 from crispy_forms.helper import FormHelper, Layout
 from extra_views import InlineFormSet
@@ -94,7 +94,7 @@ class AdsInline(InlineFormSet):
         'order',
     ]
     form_class = autocomplete_light.ModelForm
-    extra = 8
+    extra = 10
 
 
 class AdsInlineFormHelper(FormHelper):

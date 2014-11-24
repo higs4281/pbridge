@@ -7,7 +7,7 @@ from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Ad
 from .forms import AdUpdateForm
-from shows.mixins import SuccessMessageMixin, SelectRelatedMixin
+from shows.mixins import SuccessMessageMixin, SelectRelatedMixin, PrefetchRelatedMixin
 
 
 class AdUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
@@ -19,8 +19,9 @@ class AdUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class AdListView(LoginRequiredMixin, PermissionRequiredMixin,
-                 ListView):
+                 PrefetchRelatedMixin, ListView):
     model = Ad
+    prefetch_related = ['campaign', 'campaign__client', 'show']
     permission_required = 'is_staff'
 
     def get_queryset(self):
