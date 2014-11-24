@@ -9,6 +9,7 @@
     {% if user.is_staff %}
         <li><a href="{% url 'shows:index' %}">Shows</a></li>
         <li><a href="{% url 'campaigns:index' %}">Campaigns</a></li>
+        <li><a href="{% url 'ads:index' %}">Ads</a></li>
     {% endif %}
     </ul>
 {% endblock extranav %}

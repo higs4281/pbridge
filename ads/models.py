@@ -68,6 +68,13 @@ class Ad(TimeStampedModel):
     def dollar_amount(self):
         return '$ {:,.0f}'.format(self.cost)
 
+    # Display scheduled date with pretty formatting
+    @property
+    def scheduled_date_display(self):
+        if self.scheduled_date:
+            return self.scheduled_date.strftime('%m/%d/%y')
+        return None
+
     def get_absolute_url(self):
         return reverse('ads:detail', args=[str(self.id)])
 

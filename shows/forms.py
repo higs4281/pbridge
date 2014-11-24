@@ -4,18 +4,12 @@ import autocomplete_light
 from django.core.exceptions import ValidationError
 import floppyforms.__future__ as forms  # Use __future__ until 1.3
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, HTML
-from crispy_forms.bootstrap import StrictButton, AppendedText
+from crispy_forms.layout import Layout, Submit, Div
+from crispy_forms.bootstrap import StrictButton
 
 from .models import Show, Host
 
 autocomplete_light.autodiscover()
-
-HOST_PLUS = HTML(
-    """<a href="{% url 'shows:host_create' %}" target="_blank">"""
-    '<i id="plus" class="glyphicon glyphicon-plus"></i>'
-    '</a>'
-)
 
 
 class ShowAdminForm(autocomplete_light.ModelForm):
