@@ -64,7 +64,7 @@ class Show(TimeStampedModel):
     api_id = models.CharField('API id', max_length=255, blank=True)
     platform = models.ForeignKey(Platform)
     tags = TaggableManager(blank=True)
-    art = models.URLField('splash art URL', blank=True)
+    art = models.ImageField('splash art', upload_to='img', blank=True)
     description = models.TextField('show description', blank=True)
     link = models.URLField('show page URL', blank=True)
     feed = models.URLField('RSS Feed URL', null=True, blank=True)

@@ -2,6 +2,8 @@ from __future__ import absolute_import, unicode_literals
 
 from time import mktime
 from datetime import datetime
+from django.core.files.base import ContentFile
+import requests
 
 from django.shortcuts import get_object_or_404
 
@@ -64,12 +66,18 @@ def it_init_data(itunes_id):
     api_id = items.get('trackId')
     platform = get_object_or_404(Platform, simple_name__iexact='itunes')
     link = platform.show_base_url.format(api_id)
+    art_url = items.get('artworkUrl600')
+    art = None
+    if art_url:
+        r = requests.get(art_url)
+        r.raise_for_status()
+        art_content = ContentFile(r.content)
 
     # Show Fields (initial data)
     d = {
         'name': items.get('trackName'),
         'api_id': api_id,
-        'art': items.get('artworkUrl600'),
+        'art': '',
         'platform': platform,
         'link': link,
         'feed': items.get('feedUrl'),
