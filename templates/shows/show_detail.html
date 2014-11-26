@@ -5,16 +5,28 @@
 {% block content %}
 <div class="container">
     <div class="col-lg-3">
-        <a href="{{ show.art.url }}">
-            <img class="img-rounded img-responsive" src="{{ show.art.url }}" alt="{{ show.name }}" />
-        </a>
-    </div>
-    <div class="col-lg-9">
         <div class="row">
-            <p class="text-right col-sm-2"><strong>Host</strong></p>
-            <p class="col-sm-10">{% if show.host %}<a href="{{ show.host.get_absolute_url }}">{{ show.host.name }}</a>{% endif %}</p>
+            <div class="col-sm-12 text-center">
+                <a href="{{ show.art_external }}">
+                    <img class="img-rounded img-responsive" src="{{ show.art_external }}" alt="{{ show.name }}" />
+                </a>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <p class="col-sm-4 text-right"><strong>Host</strong></p>
+            <p class="col-sm-8">{% if show.host %}<a href="{{ show.host.get_absolute_url }}">{{ show.host.name }}</a>{% endif %}</p>
         </div>
         <div class="row">
+            <p class="col-sm-4 text-right"><strong>Platform</strong></p>
+            <p class="col-sm-8">{{ show.platform }}</p>
+        </div>
+        <div class="row">
+            <p class="col-sm-4 text-right"><strong>Vendor</strong></p>
+            <p class="col-sm-8">{{ show.default_vendor }}</p>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="row top-buffer">
             <p class="text-right col-sm-2"><strong>Description</strong></p>
             <p class="col-sm-10">{{ show.description }}</p>
         </div>
@@ -23,20 +35,14 @@
             <p class="col-sm-10"><a href="{{ show.link }}" target="_blank">{{ show.link }}</a></p>
         </div>
         <div class="row">
-            <p class="text-right col-sm-2"><strong>Platform</strong></p>
-            <p class="col-sm-10">{{ show.platform }}</p>
-        </div>
-        <div class="row">
             <p class="text-right col-sm-2"><strong>Tags</strong></p>
             <p class="col-sm-10">{{ show.tags.all|join:", " }}</p>
         </div>
         <div class="row">
-            <p class="text-right col-sm-2"><strong>Vendor</strong></p>
-            <p class="col-sm-10">{{ show.default_vendor }}</p>
-        </div>
-        <div class="row">
             <p class="text-right col-sm-2"><strong>Downloads/ep.</strong></p>
-            <p class="col-sm-10">{{ show.downloads_per_episode }}</p>
+            <p class="col-sm-10">
+                {% if show.downloads_per_episode %}{{ show.downloads_per_episode }}{% else %}Not set{% endif %}
+            </p>
         </div>
         <div class="row">
             <p class="text-right col-sm-2"><strong>Notes</strong></p>

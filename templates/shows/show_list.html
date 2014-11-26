@@ -42,10 +42,12 @@
 		<tr>
 			<td class="art">
                 <a href="{{ show.get_absolute_url }}">
-                {% if show.art %}
-                    {% thumbnail show.art "x64" as im %}
+                {% if show.art_file %}
+                    {% thumbnail show.art_file "x64" as im %}
                         <img src="{{ im.url }}" class="img-rounded">
                     {% endthumbnail %}
+                {% elif show.art_external %}
+                    <img src="{{ show.art_external }}" class="img-rounded" width="64" height="64">
                 {% endif %}
                 </a>
             </td>

@@ -64,10 +64,19 @@ class Show(TimeStampedModel):
     api_id = models.CharField('API id', max_length=255, blank=True)
     platform = models.ForeignKey(Platform)
     tags = TaggableManager(blank=True)
-    art = models.ImageField('splash art', upload_to='img', blank=True)
+    art_height = models.PositiveSmallIntegerField(blank=True, null=True)
+    art_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    art_external = models.URLField('splash art URL', blank=True)
+    art_file = models.ImageField(
+        'splash art file',
+        upload_to='img',
+        blank=True,
+        width_field='art_width',
+        height_field='art_height',
+    )
     description = models.TextField('show description', blank=True)
     link = models.URLField('show page URL', blank=True)
-    feed = models.URLField('RSS Feed URL', null=True, blank=True)
+    feed = models.URLField('RSS Feed URL', blank=True)
     episodes_per_month = models.PositiveSmallIntegerField(default=1)
     downloads_per_episode = models.PositiveIntegerField(default=0)
     default_vendor = models.ForeignKey(Vendor, null=True, blank=True)

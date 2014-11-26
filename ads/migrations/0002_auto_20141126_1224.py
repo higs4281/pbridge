@@ -7,22 +7,22 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vendors', '0001_initial'),
-        ('shows', '0001_initial'),
         ('ads', '0001_initial'),
+        ('shows', '0001_initial'),
+        ('vendors', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='ad',
             name='episode',
-            field=models.ForeignKey(null=True, blank=True, to='shows.Episode'),
+            field=models.ForeignKey(null=True, to='shows.Episode', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='ad',
             name='order',
-            field=models.ForeignKey(null=True, blank=True, to='vendors.Order'),
+            field=models.ForeignKey(null=True, to='vendors.Order', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(

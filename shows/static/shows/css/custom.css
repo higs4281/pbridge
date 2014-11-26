@@ -29,3 +29,7 @@ td.art {
     vertical-align: middle;
     text-align: center;
 }
+
+.top-buffer {
+    margin-top: 10px;
+}

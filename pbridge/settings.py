@@ -144,6 +144,15 @@ LOGOUT_URL = '/logout/'
 
 USE_THOUSAND_SEPARATOR = True
 
+# Django REST Framework settings
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 # Grappelli customization
 GRAPPELLI_ADMIN_TITLE = 'Performance Bridge Media'
 

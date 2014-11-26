@@ -48,25 +48,27 @@
                         <li><a href="{% url 'contact' %}">Contact</a></li>
                     </ul>
                 {% endblock %}
-                <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_superuser %}
-                        <li><a href="{% url 'dashboard' %}"><strong>Dashboard</strong></a></li>
-                        <li><a href="{% url 'admin:index' %}">Admin</a></li>
-                    {% endif %}
-                    {% if user.is_authenticated %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                                <li><a href="#">Account</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{% url 'logout' %}">Logout</a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li><a href="{% url 'login' %}">Login</a></li>
-                    {% endif %}
-                </ul>
+                {% block navright %}
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user.is_superuser %}
+                            <li><a href="{% url 'dashboard' %}"><strong>Dashboard</strong></a></li>
+                            <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                                    <li><a href="#">Account</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                {% endblock navright %}
             </div>
         </div>
     </nav>

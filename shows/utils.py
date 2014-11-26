@@ -2,7 +2,6 @@ from __future__ import absolute_import, unicode_literals
 
 from time import mktime
 from datetime import datetime
-from urllib.parse import urlparse
 from django.core.files.base import ContentFile
 import requests
 
@@ -12,12 +11,11 @@ from .models import Platform
 from .apitools import youtube_channel, get_freebase, itunes_lookup
 
 
-def get_art_object(art_url):
+def get_art_file(art_url):
     r = requests.get(art_url)
     r.raise_for_status()
-    art_fn = urlparse(art_url).path.split('/')[-1]
     file = ContentFile(r.content)
-    return art_fn, file
+    return file
 
 
 def get_art_url(api_id, platform_name):
@@ -66,18 +64,20 @@ def yt_init_data(channel_id):
     freebase_tag_list = get_freebase(topic_id_list)
     platform = get_object_or_404(Platform, simple_name__iexact='youtube')
     link = platform.show_base_url.format(api_id)
+    art_external = thumbs.get('high').get('url') or thumbs.get('default').get('url')
 
     # Show Fields (initial data)
-    d = {
+    initial_data_dict = {
         'name': snippet.get('title'),
         'api_id': api_id,
         'description': snippet.get('description'),
         'link': link,
+        'art_external': art_external,
         'platform': platform,
         'feed': 'https://gdata.youtube.com/feeds/api/users/' + api_id,
         'tags': ', '.join(freebase_tag_list),
     }
-    return d
+    return initial_data_dict
 
 
 def it_init_data(itunes_id):
@@ -98,26 +98,28 @@ def it_init_data(itunes_id):
     api_id = items.get('trackId')
     platform = get_object_or_404(Platform, simple_name__iexact='itunes')
     link = platform.show_base_url.format(api_id)
+    art_external = items.get('artworkUrl600')
 
     # Show Fields (initial data)
-    d = {
+    initial_data_dict = {
         'name': items.get('trackName'),
         'api_id': api_id,
         'platform': platform,
         'link': link,
+        'art_external': art_external,
         'feed': items.get('feedUrl'),
         'tags': ', '.join(tag_list),
     }
-    return d
+    return initial_data_dict
 
 
 def it_episode_data(rssEntry):
     # Date has to be restructured to a datetime object
     rss_struct_time = rssEntry.published_parsed
     date = datetime.fromtimestamp(mktime(rss_struct_time))
-    d = {
+    initial_data_dict = {
         'date': date,
         'link': rssEntry.link,
         'details': rssEntry.description,
     }
-    return d
+    return initial_data_dict

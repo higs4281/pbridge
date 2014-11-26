@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import model_utils.fields
 import django.utils.timezone
 from django.conf import settings
-import model_utils.fields
 
 
 class Migration(migrations.Migration):
@@ -18,10 +18,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Campaign',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
-                ('name', models.CharField(max_length=255, verbose_name='campaign name')),
+                ('name', models.CharField(verbose_name='campaign name', max_length=255)),
                 ('description', models.TextField(blank=True)),
                 ('budget', models.ForeignKey(to='clients.Budget')),
                 ('client', models.ForeignKey(to='clients.Client')),
@@ -34,16 +34,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HistoricalCampaign',
             fields=[
-                ('id', models.IntegerField(auto_created=True, db_index=True, verbose_name='ID', blank=True)),
+                ('id', models.IntegerField(verbose_name='ID', blank=True, auto_created=True, db_index=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
-                ('name', models.CharField(max_length=255, verbose_name='campaign name')),
+                ('name', models.CharField(verbose_name='campaign name', max_length=255)),
                 ('client_id', models.IntegerField(null=True, db_index=True, blank=True)),
                 ('budget_id', models.IntegerField(null=True, db_index=True, blank=True)),
                 ('description', models.TextField(blank=True)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('history_id', models.AutoField(serialize=False, primary_key=True)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(max_length=1, choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')])),
+                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
                 ('history_user', models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL)),
             ],
             options={

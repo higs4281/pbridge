@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import model_utils.fields
 import django.utils.timezone
 import taggit.managers
 from django.conf import settings
-import model_utils.fields
 
 
 class Migration(migrations.Migration):
@@ -21,14 +21,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Episode',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('date', models.DateField(verbose_name='episode date')),
-                ('link', models.URLField(max_length=255, verbose_name='episode URL', blank=True)),
+                ('link', models.URLField(verbose_name='episode URL', max_length=255, blank=True)),
                 ('downloads', models.IntegerField(verbose_name='unique downloads', default=0)),
                 ('details', models.CharField(max_length=255, blank=True)),
-                ('api_id', models.CharField(max_length=255, verbose_name='API id', blank=True)),
+                ('api_id', models.CharField(verbose_name='API id', max_length=255, blank=True)),
             ],
             options={
                 'ordering': ['-date'],
@@ -38,18 +38,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HistoricalEpisode',
             fields=[
-                ('id', models.IntegerField(auto_created=True, db_index=True, verbose_name='ID', blank=True)),
+                ('id', models.IntegerField(verbose_name='ID', blank=True, auto_created=True, db_index=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('show_id', models.IntegerField(null=True, db_index=True, blank=True)),
                 ('date', models.DateField(verbose_name='episode date')),
-                ('link', models.URLField(max_length=255, verbose_name='episode URL', blank=True)),
+                ('link', models.URLField(verbose_name='episode URL', max_length=255, blank=True)),
                 ('downloads', models.IntegerField(verbose_name='unique downloads', default=0)),
                 ('details', models.CharField(max_length=255, blank=True)),
-                ('api_id', models.CharField(max_length=255, verbose_name='API id', blank=True)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('api_id', models.CharField(verbose_name='API id', max_length=255, blank=True)),
+                ('history_id', models.AutoField(serialize=False, primary_key=True)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(max_length=1, choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')])),
+                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
                 ('history_user', models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -61,20 +61,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HistoricalHost',
             fields=[
-                ('id', models.IntegerField(auto_created=True, db_index=True, verbose_name='ID', blank=True)),
+                ('id', models.IntegerField(verbose_name='ID', blank=True, auto_created=True, db_index=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('email', models.EmailField(max_length=75, blank=True)),
-                ('phone', models.CharField(max_length=25, verbose_name='phone number', blank=True)),
-                ('address_1', models.CharField(max_length=63, verbose_name='address', blank=True)),
-                ('address_2', models.CharField(max_length=63, verbose_name='address line 2', blank=True)),
+                ('phone', models.CharField(verbose_name='phone number', max_length=25, blank=True)),
+                ('address_1', models.CharField(verbose_name='address', max_length=63, blank=True)),
+                ('address_2', models.CharField(verbose_name='address line 2', max_length=63, blank=True)),
                 ('city', models.CharField(max_length=63, blank=True)),
                 ('state', models.CharField(max_length=2, blank=True)),
-                ('zip', models.CharField(max_length=10, verbose_name='zip code', blank=True)),
-                ('name', models.CharField(max_length=255, verbose_name='host name')),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('zip', models.CharField(verbose_name='zip code', max_length=10, blank=True)),
+                ('name', models.CharField(verbose_name='host name', max_length=255)),
+                ('history_id', models.AutoField(serialize=False, primary_key=True)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(max_length=1, choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')])),
+                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
                 ('history_user', models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -86,25 +86,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HistoricalShow',
             fields=[
-                ('id', models.IntegerField(auto_created=True, db_index=True, verbose_name='ID', blank=True)),
+                ('id', models.IntegerField(verbose_name='ID', blank=True, auto_created=True, db_index=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
-                ('name', models.CharField(max_length=255, verbose_name='show name')),
+                ('name', models.CharField(verbose_name='show name', max_length=255)),
                 ('host_id', models.IntegerField(null=True, db_index=True, blank=True)),
-                ('api_id', models.CharField(max_length=255, verbose_name='API id', blank=True)),
+                ('api_id', models.CharField(verbose_name='API id', max_length=255, blank=True)),
                 ('platform_id', models.IntegerField(null=True, db_index=True, blank=True)),
-                ('art', models.TextField(max_length=100, verbose_name='splash art', blank=True)),
+                ('art_height', models.PositiveSmallIntegerField(null=True, blank=True)),
+                ('art_width', models.PositiveSmallIntegerField(null=True, blank=True)),
+                ('art_external', models.URLField(verbose_name='splash art URL', blank=True)),
+                ('art_file', models.TextField(verbose_name='splash art file', max_length=100, blank=True)),
                 ('description', models.TextField(verbose_name='show description', blank=True)),
                 ('link', models.URLField(verbose_name='show page URL', blank=True)),
-                ('feed', models.URLField(null=True, verbose_name='RSS Feed URL', blank=True)),
+                ('feed', models.URLField(verbose_name='RSS Feed URL', blank=True)),
                 ('episodes_per_month', models.PositiveSmallIntegerField(default=1)),
                 ('downloads_per_episode', models.PositiveIntegerField(default=0)),
                 ('default_vendor_id', models.IntegerField(null=True, db_index=True, blank=True)),
                 ('active', models.BooleanField(default=True)),
                 ('notes', models.TextField(blank=True)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('history_id', models.AutoField(serialize=False, primary_key=True)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(max_length=1, choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')])),
+                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
                 ('history_user', models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -116,7 +119,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HistoricalTracking',
             fields=[
-                ('id', models.IntegerField(auto_created=True, db_index=True, verbose_name='ID', blank=True)),
+                ('id', models.IntegerField(verbose_name='ID', blank=True, auto_created=True, db_index=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('show_id', models.IntegerField(null=True, db_index=True, blank=True)),
@@ -124,9 +127,9 @@ class Migration(migrations.Migration):
                 ('tracking_type', models.PositiveSmallIntegerField(choices=[(1, 'URL'), (2, 'Promo Code')], default=1)),
                 ('tracking', models.CharField(max_length=255, blank=True)),
                 ('verified', models.BooleanField(verbose_name='tracking verified', default=False)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('history_id', models.AutoField(serialize=False, primary_key=True)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(max_length=1, choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')])),
+                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
                 ('history_user', models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -138,17 +141,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Host',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('email', models.EmailField(max_length=75, blank=True)),
-                ('phone', models.CharField(max_length=25, verbose_name='phone number', blank=True)),
-                ('address_1', models.CharField(max_length=63, verbose_name='address', blank=True)),
-                ('address_2', models.CharField(max_length=63, verbose_name='address line 2', blank=True)),
+                ('phone', models.CharField(verbose_name='phone number', max_length=25, blank=True)),
+                ('address_1', models.CharField(verbose_name='address', max_length=63, blank=True)),
+                ('address_2', models.CharField(verbose_name='address line 2', max_length=63, blank=True)),
                 ('city', models.CharField(max_length=63, blank=True)),
                 ('state', models.CharField(max_length=2, blank=True)),
-                ('zip', models.CharField(max_length=10, verbose_name='zip code', blank=True)),
-                ('name', models.CharField(max_length=255, verbose_name='host name')),
+                ('zip', models.CharField(verbose_name='zip code', max_length=10, blank=True)),
+                ('name', models.CharField(verbose_name='host name', max_length=255)),
             ],
             options={
                 'abstract': False,
@@ -158,13 +161,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Platform',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
-                ('name', models.CharField(max_length=255, verbose_name='platform name')),
-                ('simple_name', models.CharField(max_length=63, verbose_name='simplified name')),
-                ('show_base_url', models.CharField(max_length=255, verbose_name='base url for shows', help_text='use brackets as id placeholder, e.g. example.com/show/{{}}/')),
-                ('episode_base_url', models.CharField(max_length=255, verbose_name='base url for episodes', help_text='use brackets as id placeholder, e.g. site.com/episode/{{}}/')),
+                ('name', models.CharField(verbose_name='platform name', max_length=255)),
+                ('simple_name', models.CharField(verbose_name='simplified name', max_length=63)),
+                ('show_base_url', models.CharField(verbose_name='base url for shows', max_length=255, help_text='use brackets as id placeholder, e.g. example.com/show/{{}}/')),
+                ('episode_base_url', models.CharField(verbose_name='base url for episodes', max_length=255, help_text='use brackets as id placeholder, e.g. site.com/episode/{{}}/')),
                 ('content_type', models.CharField(max_length=63)),
             ],
             options={
@@ -175,23 +178,26 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Show',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
-                ('name', models.CharField(max_length=255, verbose_name='show name')),
-                ('api_id', models.CharField(max_length=255, verbose_name='API id', blank=True)),
-                ('art', models.ImageField(verbose_name='splash art', upload_to='img', blank=True)),
+                ('name', models.CharField(verbose_name='show name', max_length=255)),
+                ('api_id', models.CharField(verbose_name='API id', max_length=255, blank=True)),
+                ('art_height', models.PositiveSmallIntegerField(null=True, blank=True)),
+                ('art_width', models.PositiveSmallIntegerField(null=True, blank=True)),
+                ('art_external', models.URLField(verbose_name='splash art URL', blank=True)),
+                ('art_file', models.ImageField(blank=True, height_field='art_height', verbose_name='splash art file', upload_to='img', width_field='art_width')),
                 ('description', models.TextField(verbose_name='show description', blank=True)),
                 ('link', models.URLField(verbose_name='show page URL', blank=True)),
-                ('feed', models.URLField(null=True, verbose_name='RSS Feed URL', blank=True)),
+                ('feed', models.URLField(verbose_name='RSS Feed URL', blank=True)),
                 ('episodes_per_month', models.PositiveSmallIntegerField(default=1)),
                 ('downloads_per_episode', models.PositiveIntegerField(default=0)),
                 ('active', models.BooleanField(default=True)),
                 ('notes', models.TextField(blank=True)),
-                ('default_vendor', models.ForeignKey(null=True, blank=True, to='vendors.Vendor')),
-                ('host', models.ForeignKey(null=True, blank=True, to='shows.Host')),
+                ('default_vendor', models.ForeignKey(null=True, to='vendors.Vendor', blank=True)),
+                ('host', models.ForeignKey(null=True, to='shows.Host', blank=True)),
                 ('platform', models.ForeignKey(to='shows.Platform')),
-                ('tags', taggit.managers.TaggableManager(verbose_name='Tags', blank=True, through='taggit.TaggedItem', help_text='A comma-separated list of tags.', to='taggit.Tag')),
+                ('tags', taggit.managers.TaggableManager(through='taggit.TaggedItem', blank=True, verbose_name='Tags', to='taggit.Tag', help_text='A comma-separated list of tags.')),
             ],
             options={
                 'ordering': ['name'],
@@ -201,7 +207,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tracking',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('tracking_type', models.PositiveSmallIntegerField(choices=[(1, 'URL'), (2, 'Promo Code')], default=1)),

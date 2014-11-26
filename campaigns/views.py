@@ -9,6 +9,19 @@ import shows.mixins as mixins
 from . import models
 from . import forms
 
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+
+class LogInitialValueMixin(object):
+    def get_form(self, form_class):
+        form = super(LogInitialValueMixin, self).get_form(form_class)
+        logger.debug(form.initial)
+        return form
+
 
 class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
                        mixins.PrefetchRelatedMixin, ListView):

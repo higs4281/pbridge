@@ -59,7 +59,7 @@ class ShowCreateForm(autocomplete_light.ModelForm):
                 Div(
                     'default_vendor',
                     'platform',
-                    'art',
+                    'art_external',
                     'tags',
                     'notes',
                     css_class='col-sm-6'
@@ -89,6 +89,7 @@ class ShowCreateForm(autocomplete_light.ModelForm):
             'feed',
             'platform',
             'tags',
+            'art_external',
             'description',
             'link',
             'notes',
@@ -118,7 +119,7 @@ class ShowUpdateForm(ShowForm):
                 Div(
                     'tags',
                     'feed',
-                    'art',
+                    'art_external',
                     'notes',
                     css_class='col-md-5'
                 ),
@@ -143,7 +144,7 @@ class ShowUpdateForm(ShowForm):
             'api_id',
             'platform',
             'tags',
-            'art',
+            'art_external',
             'description',
             'link',
             'feed',

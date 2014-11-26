@@ -11,7 +11,7 @@ from .models import Show, Host
 from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
 from .mixins import SuccessMessageMixin, PrefetchRelatedMixin
-from .utils import yt_init_data, it_init_data, get_art_url, get_art_object
+from .utils import yt_init_data, it_init_data
 
 
 class NewShowTemplateView(generic.TemplateView):
@@ -31,26 +31,17 @@ class ShowCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     form_class = ShowCreateForm
 
     def get_initial(self):
+        initial = super(ShowCreateView, self).get_initial()
         platform = self.request.GET.get('platform')
         _id = self.request.GET.get('id')
 
         if platform and _id:
             if platform == 'yt':
-                self.initial.update(yt_init_data(_id))
+                initial.update(yt_init_data(_id))
             elif platform == 'it':
-                self.initial.update(it_init_data(_id))
+                initial.update(it_init_data(_id))
 
-        return super(ShowCreateView, self).get_initial()
-
-    def form_valid(self, form):
-        response = super(ShowCreateView, self).form_valid(form)
-        show = self.object
-        if show.api_id and not show.art:
-            platform_name = show.platform.simple_name
-            art_url = get_art_url(show.api_id, platform_name)
-            art_fn, art_file = get_art_object(art_url)
-            show.art.save(art_fn, art_file)
-        return response
+        return initial
 
 
 class ShowUpdateView(LoginRequiredMixin, PermissionRequiredMixin,

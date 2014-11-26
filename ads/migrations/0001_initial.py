@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import model_utils.fields
 import django.utils.timezone
 from django.conf import settings
-import model_utils.fields
 
 
 class Migration(migrations.Migration):
@@ -18,11 +18,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ad',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('scheduled_date', models.DateField(null=True, blank=True)),
-                ('cost', models.DecimalField(decimal_places=2, max_digits=12, default=0.0)),
+                ('cost', models.DecimalField(max_digits=12, default=0.0, decimal_places=2)),
                 ('projected_views', models.IntegerField(default=0)),
                 ('views_guaranteed', models.BooleanField(default=True)),
                 ('cost_type', models.PositiveSmallIntegerField(choices=[(0, 'Flat Rate'), (1, 'Makegood'), (2, 'Bonus'), (3, 'CPM (actual)'), (4, 'CPA')], default=0)),
@@ -41,14 +41,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HistoricalAd',
             fields=[
-                ('id', models.IntegerField(auto_created=True, db_index=True, verbose_name='ID', blank=True)),
+                ('id', models.IntegerField(verbose_name='ID', blank=True, auto_created=True, db_index=True)),
                 ('created', model_utils.fields.AutoCreatedField(verbose_name='created', editable=False, default=django.utils.timezone.now)),
                 ('modified', model_utils.fields.AutoLastModifiedField(verbose_name='modified', editable=False, default=django.utils.timezone.now)),
                 ('campaign_id', models.IntegerField(null=True, db_index=True, blank=True)),
                 ('show_id', models.IntegerField(null=True, db_index=True, blank=True)),
                 ('vendor_id', models.IntegerField(null=True, db_index=True, blank=True)),
                 ('scheduled_date', models.DateField(null=True, blank=True)),
-                ('cost', models.DecimalField(decimal_places=2, max_digits=12, default=0.0)),
+                ('cost', models.DecimalField(max_digits=12, default=0.0, decimal_places=2)),
                 ('projected_views', models.IntegerField(default=0)),
                 ('views_guaranteed', models.BooleanField(default=True)),
                 ('cost_type', models.PositiveSmallIntegerField(choices=[(0, 'Flat Rate'), (1, 'Makegood'), (2, 'Bonus'), (3, 'CPM (actual)'), (4, 'CPA')], default=0)),
@@ -59,9 +59,9 @@ class Migration(migrations.Migration):
                 ('verified', models.BooleanField(verbose_name='drop verified', default=False)),
                 ('notes', models.TextField(verbose_name='execution notes', blank=True)),
                 ('makegood_needed', models.BooleanField(default=False)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('history_id', models.AutoField(serialize=False, primary_key=True)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(max_length=1, choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')])),
+                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
                 ('history_user', models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL)),
             ],
             options={
