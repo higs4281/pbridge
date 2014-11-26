@@ -89,7 +89,6 @@ class ShowCreateForm(autocomplete_light.ModelForm):
             'feed',
             'platform',
             'tags',
-            'art',
             'description',
             'link',
             'notes',

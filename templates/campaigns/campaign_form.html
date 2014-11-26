@@ -19,11 +19,14 @@
 {% block content %}
 <div class="container">
     <form class="form-inline" method="post">
-        {% crispy form %}
-        {% for inline in inlines %}
-            <br>
-            {% crispy inline inlines_helper %}
-        {% endfor %}
+        <div class="row">
+            {% crispy form %}
+        </div>
+        <div class="row">
+            {% for inline in inlines %}
+                {% crispy inline inlines_helper %}
+            {% endfor %}
+        </div>
         <div class="form-actions">
             <input type="submit" name="submit" value="Save" class="btn btn-primary" />
         </div>

@@ -35,3 +35,7 @@ class DashboardView(LoginRequiredMixin, PermissionRequiredMixin,
     permission_required = 'is_authenticated'
     # Currently lazy, just redirecting to shows
     pattern_name = 'shows:index'
+
+
+class ContactTemplateView(TemplateView):
+    template_name = 'contact.html'

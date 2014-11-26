@@ -1,6 +1,7 @@
 {% extends 'base_shows.html' %}
 
 {% load staticfiles %}
+{% load thumbnail %}
 
 {% block stylesheets %}
 {{ block.super }}
@@ -39,7 +40,15 @@
 		<tbody data-link="row" class="rowlink">
 		{% for show in show_list %}
 		<tr>
-			<td class="art"><a href="{{ show.get_absolute_url }}"><img src="{{ show.art }}" class="img-rounded" width="64" height="64"></a></td>
+			<td class="art">
+                <a href="{{ show.get_absolute_url }}">
+                {% if show.art %}
+                    {% thumbnail show.art "x64" as im %}
+                        <img src="{{ im.url }}" class="img-rounded">
+                    {% endthumbnail %}
+                {% endif %}
+                </a>
+            </td>
 			<td>{{ show.name }}</td>
 			<td>{{ show.platform }}</td>
 			<td>{{ show.default_vendor }}</td>

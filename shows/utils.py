@@ -2,6 +2,7 @@ from __future__ import absolute_import, unicode_literals
 
 from time import mktime
 from datetime import datetime
+from urllib.parse import urlparse
 from django.core.files.base import ContentFile
 import requests
 
@@ -9,6 +10,38 @@ from django.shortcuts import get_object_or_404
 
 from .models import Platform
 from .apitools import youtube_channel, get_freebase, itunes_lookup
+
+
+def get_art_object(art_url):
+    r = requests.get(art_url)
+    r.raise_for_status()
+    art_fn = urlparse(art_url).path.split('/')[-1]
+    file = ContentFile(r.content)
+    return art_fn, file
+
+
+def get_art_url(api_id, platform_name):
+    """
+    Grabs a URL for show art from an api id.
+    """
+    if platform_name.lower() in ('yt', 'youtube'):
+        data = youtube_channel(api_id).json()
+        item_list = data.get('items', [{}])
+        if not item_list:
+            return None
+
+        items = item_list[0]
+        snippet = items.get('snippet', {})
+        thumbs = snippet.get('thumbnails', {})
+        return thumbs.get('high').get('url') or thumbs.get('default').get('url')
+
+    if platform_name.lower() in ('it', 'itunes'):
+        data = itunes_lookup(api_id).json()
+        items = data.get('results', [])[0]
+        if not items:
+            return None
+
+        return items.get('artworkUrl600')
 
 
 def yt_init_data(channel_id):
@@ -38,7 +71,6 @@ def yt_init_data(channel_id):
     d = {
         'name': snippet.get('title'),
         'api_id': api_id,
-        'art': thumbs.get('high').get('url') or thumbs.get('default').get('url'),
         'description': snippet.get('description'),
         'link': link,
         'platform': platform,
@@ -66,18 +98,11 @@ def it_init_data(itunes_id):
     api_id = items.get('trackId')
     platform = get_object_or_404(Platform, simple_name__iexact='itunes')
     link = platform.show_base_url.format(api_id)
-    art_url = items.get('artworkUrl600')
-    art = None
-    if art_url:
-        r = requests.get(art_url)
-        r.raise_for_status()
-        art_content = ContentFile(r.content)
 
     # Show Fields (initial data)
     d = {
         'name': items.get('trackName'),
         'api_id': api_id,
-        'art': '',
         'platform': platform,
         'link': link,
         'feed': items.get('feedUrl'),

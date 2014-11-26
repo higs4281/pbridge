@@ -60,7 +60,6 @@ class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
 
     model = models.Campaign
     permission_required = 'is_staff'
-    # prefetch_related = ['ad_set']
     form_class = forms.CampaignUpdateForm
     success_msg = 'Campaign updated'
     inlines = [forms.AdsInline]

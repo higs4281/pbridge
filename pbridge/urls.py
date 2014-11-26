@@ -5,7 +5,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from class_based_auth_views.views import LoginView, LogoutView
 
-from .views import IndexView, AboutTemplateView, DashboardView
+from .views import IndexView, AboutTemplateView, DashboardView, ContactTemplateView
 from .forms import LoginForm
 
 admin.autodiscover()
@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^navigation/', include('navigation_autocomplete.urls')),
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^about/$', AboutTemplateView.as_view(), name='about'),
+    url(r'^contact/$', ContactTemplateView.as_view(), name='contact'),
     url(r'^login/', LoginView.as_view(form_class=LoginForm), name='login'),
     url(r'^logout/', LogoutView.as_view(), name='logout'),
     url(r'^close/', 'pbridge.views.close', name='close'),

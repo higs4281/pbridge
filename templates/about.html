@@ -6,6 +6,7 @@ Performance Bridge Media<small class="pull-right">what we do</small>
 
 {% block content %}
 <div class="container">
+    {% if user.is_superuser %}
     <blockquote>
         <p>
             Tomorrow, and tomorrow, and tomorrow,<br>
@@ -21,6 +22,9 @@ Performance Bridge Media<small class="pull-right">what we do</small>
         </p>
         <footer><cite title="Macbeth"><a href="http://en.wikipedia.org/wiki/Tomorrow_and_tomorrow_and_tomorrow">Macbeth</a></cite></footer>
     </blockquote>
+    {% else %}
+
+    {% endif %}
 </div>
 {% endblock content %}
 
