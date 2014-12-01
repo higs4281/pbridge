@@ -173,7 +173,8 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 # Various other API keys
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
-MIDROLL_API_KEY = os.environ.get('MIDROLL_API_KEY')
+# API keys that exist but haven't been implemented yet
+MIDROLL_API_KEY = None
 
 # Include local settings, if they exists
 try:
