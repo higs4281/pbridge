@@ -95,6 +95,12 @@ class AdsInline(InlineFormSet):
     ]
     form_class = autocomplete_light.ModelForm
     extra = 10
+    #
+    # def construct_formset(self):
+    #     formset = super(AdsInline, self).construct_formset()
+    #     for form in formset:
+    #         form.fields['scheduled_date'].widget = forms.DateInput
+    #     return formset
 
 
 class AdsInlineFormHelper(FormHelper):

@@ -12,7 +12,7 @@ from __future__ import absolute_import
 
 import os
 
-from django.contrib.messages import constants as messages
+import django.contrib.messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -105,11 +105,13 @@ USE_TZ = True
 # End initial settings
 # Below were added by Graham
 
+FORMAT_MODULE_PATH = 'shows.formats'
+
 STATIC_URL = '/static/'
 
 # One update needed for django.contrib.messages to play well with Bootstrap 3
 MESSAGE_TAGS = {
-    messages.ERROR: 'danger'
+    django.contrib.messages.constants.ERROR: 'danger'
 }
 
 # For use in deployment

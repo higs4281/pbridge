@@ -58,7 +58,10 @@
 /* Add DataTables functionality. See http://www.datatables.net */
 $(function() {
     $("#campaignTable").dataTable({
-        "paging": false
+        "paging": false,
+        "columnDefs": [
+                { "orderable": false, "targets": 0 }
+        ]
     });
 })
 </script>

@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 # Moved [2] to [0] from the default to set the default date display format.
 DATE_INPUT_FORMATS = (
     '%m/%d/%y', '%Y-%m-%d', '%m/%d/%Y',  # '10/25/06', '2006-10-25', '10/25/2006'
