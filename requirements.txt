@@ -11,6 +11,7 @@ django-extra-views==0.6.5
 django-filter==0.8
 django-floppyforms==1.2.0
 django-grappelli==2.6.2
+django-import-export==0.2.6
 django-model-utils==2.2
 django-simple-history==1.5.2
 django-taggit==0.12.2
@@ -22,4 +23,5 @@ requests==2.4.3
 six==1.8.0
 sorl-thumbnail==11.12.1b
 sqlparse==0.1.13
+tablib==0.10.0
 git+git://github.com/coagulant/django-storages-py3.git

@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
+from import_export import resources
 
 from django.core.urlresolvers import reverse
 from django.db import models

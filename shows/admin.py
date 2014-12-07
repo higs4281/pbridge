@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+from import_export import resources
 
 from django.contrib import admin
 
@@ -38,3 +39,28 @@ class EpisodeAdmin(SimpleHistoryAdmin):
 
 admin.site.register(Platform)
 admin.site.register(Host)
+
+
+class ShowResource(resources.ModelResource):
+    """
+    Base resource for Show Import/Export.
+    """
+
+    class Meta:
+        model = Show
+        fields = [
+            'name',
+            'host__name',
+            'host__email',
+            'api_id',
+            'platform__name',
+            'art_external',
+            'description',
+            'link',
+            'feed',
+            'episodes_per_month',
+            'downloads_per_episode',
+            'default_vendor__name',
+            'active',
+            'history',
+        ]

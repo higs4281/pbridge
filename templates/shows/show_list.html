@@ -20,6 +20,7 @@
     <div class="pull-right">
         <a href="{% url 'shows:new' %}"><button class="btn btn-default">Add a new show</button></a>
         <a href="{% url 'shows:search' %}"><button class="btn btn-default">Advanced Search</button></a>
+        <a href="{% url 'shows:export' %}"><img src="{% static 'shows/img/csv_large.png' %}" height="30"></a>
     </div>
 {% endblock %}
 

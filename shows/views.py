@@ -1,12 +1,14 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.db.models import Q
+from django.http import HttpResponse
 import django.views.generic as generic
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django_filters.views import FilterView
 import autocomplete_light
 
+from .admin import ShowResource
 from .models import Show, Host
 from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
@@ -110,3 +112,19 @@ class HostDetailView(LoginRequiredMixin, PermissionRequiredMixin,
                      generic.DetailView):
     model = Host
     permission_required = 'is_staff'
+
+
+class ShowExportView(LoginRequiredMixin, PermissionRequiredMixin,
+                     generic.View):
+    """
+    Base view for exporting Shows as csv files.
+    See also:
+    http://stackoverflow.com/questions/24008820/use-django-import-export-with-class-based-views
+    """
+    permission_required = 'is_staff'
+
+    def get(self, *args, **kwargs):
+        dataset = ShowResource().export()
+        response = HttpResponse(dataset.csv, content_type='csv')
+        response['Content-Disposition'] = 'attachment; filename=shows.csv'
+        return response

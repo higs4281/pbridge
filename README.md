@@ -1,3 +1,3 @@
 pbridge
 =======
-Written in Python 3.4, but *should* work in 2.7+ (untested).
+Written in Python 3.4 and Django 1.7; untested on other versions.
