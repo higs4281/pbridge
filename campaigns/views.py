@@ -9,19 +9,6 @@ import shows.mixins as mixins
 from . import models
 from . import forms
 
-# import the logging library
-import logging
-
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
-
-
-class LogInitialValueMixin(object):
-    def get_form(self, form_class):
-        form = super(LogInitialValueMixin, self).get_form(form_class)
-        logger.debug(form.initial)
-        return form
-
 
 class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
                        mixins.PrefetchRelatedMixin, ListView):
@@ -37,7 +24,7 @@ class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin,
 class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin,
                          mixins.SuccessMessageMixin, CreateView):
     """
-
+    Base view for creating campaigns.
     """
 
     model = models.Campaign
@@ -50,7 +37,7 @@ class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin,
 class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
                          DetailView):
     """
-    Base view for looking at a Campaign
+    Base view for looking at a single Campaign
     """
 
     model = models.Campaign
@@ -68,7 +55,7 @@ class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
 class CampaignUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
                          mixins.SuccessMessageMixin, UpdateWithInlinesView):
     """
-    Update view for Campaigns. Includes Ads inline.
+    Update view for Campaigns. Includes related Ads inline for easy editing.
     """
 
     model = models.Campaign
