@@ -96,13 +96,3 @@ def get_freebase(topic_id_list):
         if name:
             tags.append(name)
     return tags
-
-
-class RSSFeed:
-    """
-    Base class for dealing with iTunes RSS feeds, which have more
-    info than the iTunes API can provide.
-    """
-
-    def __init__(self, url):
-        self.feed = feedparser.parse(url)

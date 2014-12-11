@@ -3,11 +3,12 @@ from __future__ import absolute_import, unicode_literals
 from time import mktime
 from datetime import datetime
 from django.core.files.base import ContentFile
+import feedparser
 import requests
 
 from django.shortcuts import get_object_or_404
 
-from .models import Platform
+from .models import Platform, Show
 from .apitools import youtube_channel, get_freebase, itunes_lookup
 
 
@@ -123,3 +124,35 @@ def it_episode_data(rssEntry):
         'details': rssEntry.description,
     }
     return initial_data_dict
+
+
+class RSSFeed:
+    """
+    Base class for dealing with iTunes RSS feeds, which have more
+    info than the iTunes API can provide.
+    """
+
+    def __init__(self, rss_feed_url):
+        self.parse = feedparser.parse(rss_feed_url)
+
+    def get_feed(self):
+        return self.parse.feed
+
+    def get_entries(self):
+        return self.parse.entries
+
+    def get_entries_with_initial(self):
+        entries = self.get_entries()
+        return {entry: self.get_itunes_initial(entry) for entry in entries}
+
+    @staticmethod
+    def get_itunes_initial(entry):
+        # Date has to be restructured to a datetime object
+        rss_struct_time = entry.published_parsed
+        date = datetime.fromtimestamp(mktime(rss_struct_time))
+        initial_data = {
+            'date': date,
+            'link': entry.link,
+            'details': entry.description,
+        }
+        return initial_data

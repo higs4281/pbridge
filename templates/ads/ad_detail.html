@@ -15,46 +15,31 @@
             </div>
         </div>
         <div class="row top-buffer">
-            <p class="col-sm-4 text-right"><strong>Host</strong></p>
-            <p class="col-sm-8">{% if ad.show.host %}<a href="{{ ad.show.host.get_absolute_url }}">{{ ad.show.host.name }}</a>{% endif %}</p>
-        </div>
-        <div class="row">
-            <p class="col-sm-4 text-right"><strong>Platform</strong></p>
+            <p class="col-sm-4"><strong>Platform</strong></p>
             <p class="col-sm-8">{{ ad.show.platform }}</p>
         </div>
         <div class="row">
-            <p class="col-sm-4 text-right"><strong>Vendor</strong></p>
-            <p class="col-sm-8">{{ ad.show.default_vendor }}</p>
+            <p class="col-sm-4"><strong>Vendor</strong></p>
+            <p class="col-sm-8">{{ ad.vendor }}</p>
         </div>
     </div>
     <div class="col-lg-9">
         <div class="row top-buffer">
-            <p class="text-right col-sm-2"><strong>Description</strong></p>
-            <p class="col-sm-10">{{ ad.show.description }}</p>
-        </div>
-        <div class="row">
-            <p class="text-right col-sm-2"><strong>Homepage</strong></p>
-            <p class="col-sm-10"><a href="{{ ad.show.link }}" target="_blank">{{ ad.show.link }}</a></p>
+            <p class="text-right col-sm-2"><strong>Show</strong></p>
+            <p class="col-sm-10"><a href="{{ ad.show.get_absolute_url }}">{{ ad.show }}</a></p>
         </div>
         <div class="row">
             <p class="text-right col-sm-2"><strong>Tags</strong></p>
             <p class="col-sm-10">{{ ad.show.tags.all|join:", " }}</p>
         </div>
-        <div class="row">
-            <p class="text-right col-sm-2"><strong>Downloads/ep.</strong></p>
-            <p class="col-sm-10">
-                {% if ad.show.downloads_per_episode %}{{ ad.show.downloads_per_episode }}{% else %}Not set{% endif %}
-            </p>
-        </div>
-        <div class="row">
-            <p class="text-right col-sm-2"><strong>Notes</strong></p>
-            <p class="col-sm-10">{{ show.notes }}</p>
-        </div>
     </div>
 </div>
-{% if ad.episode %}
-<div class="container" id="episode-info">
 
-</div>
+<div class="container top-buffer" id="episode-info">
+{% if ad.episode %}
+    episode data here
+{% else %}
+    no episode found - choose from these:
 {% endif %}
+</div>
 {% endblock content %}
