@@ -7,12 +7,14 @@ import django.views.generic as generic
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django_filters.views import FilterView
 import autocomplete_light
+from rest_framework import generics
 
 from .admin import ShowResource
 from .models import Show, Host
 from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
 from .mixins import SuccessMessageMixin, PrefetchRelatedMixin
+from .serializers import ShowSerializer
 from .utils import yt_init_data, it_init_data
 
 
@@ -128,3 +130,13 @@ class ShowExportView(LoginRequiredMixin, PermissionRequiredMixin,
         response = HttpResponse(dataset.csv, content_type='csv')
         response['Content-Disposition'] = 'attachment; filename=shows.csv'
         return response
+
+
+class ShowAPIListView(generics.ListCreateAPIView):
+    queryset = Show.objects.all()
+    serializer_class = ShowSerializer
+
+
+class ShowAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Show.objects.all()
+    serializer_class = ShowSerializer
