@@ -143,7 +143,9 @@ class RSSFeed:
 
     def get_entries_with_initial(self):
         entries = self.get_entries()
-        return {entry: self.get_itunes_initial(entry) for entry in entries}
+        for entry in entries:
+            entry['initial'] = self.get_itunes_initial(entry)
+        return entries
 
     @staticmethod
     def get_itunes_initial(entry):

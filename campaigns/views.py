@@ -44,7 +44,7 @@ class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin,
     permission_required = 'is_staff'
 
     def get_context_data(self, **kwargs):
-        context = super(CampaignDetailView, self).get_context_data()
+        context = super(CampaignDetailView, self).get_context_data(**kwargs)
         ad_list = self.object.ad_set.all().prefetch_related(
             'vendor', 'show', 'show__platform'
         ).order_by('vendor__name', 'show__name')

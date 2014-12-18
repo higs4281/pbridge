@@ -39,7 +39,9 @@
 {% if ad.episode %}
     episode data here
 {% else %}
-    no episode found - choose from these:
+    {% if episode_list %}
+        {% if platform == 'youtube' %}
+    {% endif %}
 {% endif %}
 </div>
 {% endblock content %}
