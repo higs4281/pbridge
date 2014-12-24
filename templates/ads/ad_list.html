@@ -54,7 +54,9 @@
 <script>
 /* Add DataTables functionality. See http://www.datatables.net */
 $(function() {
-    $("#adTable").dataTable();
+    $("#adTable").dataTable({
+        "order": []
+    });
 })
 </script>
 {% endblock content %}

@@ -8,7 +8,7 @@ import requests
 
 from django.shortcuts import get_object_or_404
 
-from .models import Platform, Show
+from .models import Platform
 from .apitools import youtube_channel, get_freebase, itunes_lookup
 
 
@@ -110,18 +110,6 @@ def it_init_data(itunes_id):
         'art_external': art_external,
         'feed': items.get('feedUrl'),
         'tags': ', '.join(tag_list),
-    }
-    return initial_data_dict
-
-
-def it_episode_data(rssEntry):
-    # Date has to be restructured to a datetime object
-    rss_struct_time = rssEntry.published_parsed
-    date = datetime.fromtimestamp(mktime(rss_struct_time))
-    initial_data_dict = {
-        'date': date,
-        'link': rssEntry.link,
-        'details': rssEntry.description,
     }
     return initial_data_dict
 

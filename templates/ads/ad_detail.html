@@ -25,23 +25,57 @@
     </div>
     <div class="col-lg-9">
         <div class="row top-buffer">
+            <p class="text-right col-sm-2"><strong>Scheduled Date</strong></p>
+            <p class="col-sm-10">{{ ad.scheduled_date_display }}</p>
+        </div>
+        <div class="row">
             <p class="text-right col-sm-2"><strong>Show</strong></p>
             <p class="col-sm-10"><a href="{{ ad.show.get_absolute_url }}">{{ ad.show }}</a></p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Campaign</strong></p>
+            <p class="col-sm-10">{{ ad.campaign }}</p>
         </div>
         <div class="row">
             <p class="text-right col-sm-2"><strong>Tags</strong></p>
             <p class="col-sm-10">{{ ad.show.tags.all|join:", " }}</p>
         </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Cost</strong></p>
+            <p class="col-sm-10">{{ ad.dollar_amount }}</p>
+        </div>
+        <div class="row">
+            <p class="text-right col-sm-2"><strong>Projected Views</strong></p>
+            <p class="col-sm-10">{{ ad.projected_views }}</p>
+        </div>
     </div>
 </div>
 
-<div class="container top-buffer" id="episode-info">
+<div class="container top-buffer top" id="episode-info">
 {% if ad.episode %}
     episode data here
 {% else %}
+    <h3>No episode linked yet. You can link a recent episode below:</h3>
+    <br />
     {% if episode_list %}
         {% if platform == 'youtube' %}
+            {% for episode in episode_list %}
+                <div class="top-buffer top-border">
+                    <p class="top top-buffer">{{ episode.date }}</p>
+                    <iframe width="560" height="315" src="//www.youtube.com/embed/{{ episode.id.videoId }}" frameborder="0"></iframe>
+                    <button type="button" class="top btn btn-success">Link this episode</button>
+                    <p>{{ episode.snippet.description }}</p>
+                </div>
+            {% endfor %}
+        {% elif platform == 'itunes' %}
+
+        {% endif %}
     {% endif %}
 {% endif %}
+<br />
 </div>
 {% endblock content %}
+
+{% block javascript %}
+
+{% endblock javascript %}

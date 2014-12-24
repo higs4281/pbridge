@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from django.utils import timezone
 
+import dateutil.parser
 from django.views.generic import UpdateView, ListView, DetailView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
@@ -58,7 +59,6 @@ class AdDetailView(LoginRequiredMixin, PermissionRequiredMixin,
         # Different handling for each platform
         # (should probably be done elsewhere)
         if platform == 'itunes':
-            context['platform'] = 'itunes'
             rss = RSSFeed(show.feed)
             entries = rss.get_entries_with_initial()
             try:
@@ -66,11 +66,15 @@ class AdDetailView(LoginRequiredMixin, PermissionRequiredMixin,
             except KeyError:
                 episode_list = entries
         elif platform == 'youtube':
-            context['platform'] = 'youtube'
             r = youtube_search(None, _type=None, channelId=api_id, order='date')
             episode_list = r.json().get('items')
+            for episode in episode_list:
+                published_at = episode.get('snippet', {}).get('publishedAt')
+                date = dateutil.parser.parse(published_at)
+                episode['date'] = date
         # Add our shiny list of episodes to context
         context['episode_list'] = episode_list
+        context['platform'] = platform
         return context
 
 

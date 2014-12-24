@@ -67,7 +67,6 @@ class AdUpdateForm(autocomplete_light.ModelForm):
                     'cost',
                     'projected_views',
                     'order',
-                    'episode',
                     'timestamp',
                     'notes',
                     css_class='col-md-5'

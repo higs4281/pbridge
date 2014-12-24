@@ -33,3 +33,15 @@ td.art {
 .top-buffer {
     margin-top: 10px;
 }
+
+.top-border {
+    border-top: solid 1px #d3d3d3;
+}
+
+.middle {
+    vertical-align: middle;
+}
+
+.top {
+    vertical-align: top;
+}
