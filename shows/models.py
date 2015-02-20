@@ -62,6 +62,7 @@ class Host(ContactInfoMixin, TimeStampedModel):
 class Show(TimeStampedModel):
     name = models.CharField('show name', max_length=255)
     host = models.ForeignKey(Host, null=True, blank=True)
+    # hosts = models.ManyToManyField(Host, blank=True)
     api_id = models.CharField('API id', max_length=255, blank=True)
     platform = models.ForeignKey(Platform)
     tags = TaggableManager(blank=True)
