@@ -68,11 +68,10 @@ class AdDetailView(LoginRequiredMixin, PermissionRequiredMixin,
         elif platform == 'youtube':
             r = youtube_search(None, _type=None, channelId=api_id, order='date')
             episode_list = r.json().get('items')
-            if episode_list:
-                for episode in episode_list:
-                    published_at = episode.get('snippet', {}).get('publishedAt')
-                    date = dateutil.parser.parse(published_at)
-                    episode['date'] = date
+            for episode in episode_list:
+                published_at = episode.get('snippet', {}).get('publishedAt')
+                date = dateutil.parser.parse(published_at)
+                episode['date'] = date
         # Add our shiny list of episodes to context
         context['episode_list'] = episode_list
         context['platform'] = platform

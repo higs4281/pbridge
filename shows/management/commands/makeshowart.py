@@ -11,7 +11,11 @@ class Command(NoArgsCommand):
             'save the art file from the URL.')
 
     def handle_noargs(self, **options):
-        shows = Show.objects.get(art_file='')
+        shows = Show.objects.all().filter(art_file='')
+        msg = (
+            '{} eligible objects found. Attempting to save art files...'
+        ).format(len(shows)) if shows else 'All shows up to date.'
+        self.stdout.write(msg)
         for show in shows:
             url = show.art_external
             if url:
@@ -21,3 +25,4 @@ class Command(NoArgsCommand):
                 show.art_file.save(fn, file)
                 msg = 'Show art saved: {}'.format(show.name)
                 self.stdout.write(msg)
+        self.stdout.write('Done.')

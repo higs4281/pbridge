@@ -8,7 +8,6 @@ Written in Python 3.4.
 from __future__ import unicode_literals
 
 import requests
-import feedparser
 from django.conf import settings
 
 GOOGLE_API_KEY = settings.GOOGLE_API_KEY

@@ -61,7 +61,9 @@ class Ad(TimeStampedModel):
 
     @property
     def dropped(self):
-        return self.episode.date <= timezone.now().date()
+        if self.episode:
+            return self.episode.date <= timezone.now().date()
+        return False
 
     # Display cost with pretty formatting
     @property
