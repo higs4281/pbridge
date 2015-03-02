@@ -67,7 +67,7 @@ class AdDetailView(LoginRequiredMixin, PermissionRequiredMixin,
                 episode_list = entries
         elif platform == 'youtube':
             r = youtube_search(None, _type=None, channelId=api_id, order='date')
-            episode_list = r.json().get('items')
+            episode_list = r.json().get('items', [])
             for episode in episode_list:
                 published_at = episode.get('snippet', {}).get('publishedAt')
                 date = dateutil.parser.parse(published_at)
