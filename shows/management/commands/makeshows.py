@@ -4,9 +4,11 @@ import csv
 import os.path
 
 from django.core.management.base import BaseCommand
-from shows.models import Show
-from shows.utils import it_init_data, yt_init_data
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+from shows.models import Show, Platform
 
+# headers we expect from the csv file
 SHOW_CSV_HEADERS = ['platform', 'show_name', 'api_id']
 
 
@@ -27,25 +29,25 @@ class Command(BaseCommand):
             # If the file exists, make the shows
             with open(fn, newline='') as f:
                 reader = csv.DictReader(f)
-                for row in reader:
-                    make_show(self, row)
+                for i, row in enumerate(reader):
+                    make_show(self, row, i + 2)
         else:
             # If the file doesn't exist, make a template and do nothing
-            with open(fn, 'w', newline='') as f:
+            with open('makeshows_template.csv', 'w', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerow(SHOW_CSV_HEADERS)
                 msg = 'No file found. See template created at {}'.format(fn)
                 self.stdout.write(msg)
 
 
-def make_show(command, csv_dict_row):
+def make_show(command, csv_dict_row, row_num):
     """
     Creates a new Show object from a dict of show info. Attempts to get
     additional info from an API, if possible.
     :param csv_dict_row: a single row from a DictReader instance.
     """
 
-    platform = csv_dict_row['platform']
+    platform_name = csv_dict_row['platform']
     api_id = csv_dict_row['api_id']
 
     # Make sure the show doesn't already exists to avoid duplicates.
@@ -53,21 +55,23 @@ def make_show(command, csv_dict_row):
     # a duplicate since the command began
     api_id_exists = Show.objects.filter(api_id=api_id)
     if api_id_exists:
-        command.stdout.write('Show already exists: {}'.format(api_id))
+        command.stdout.write(
+            'Row #{}: Show already exists for {}'.format(row_num, api_id)
+        )
         return
     show_data = {}
 
     # Grab API data if able
-    if platform.lower() in ('it', 'itunes'):
-        if api_id:
-            api_data = it_init_data(api_id)
-            if api_data:
-                show_data.update(api_data)
-    if platform.lower() in ('yt', 'youtube'):
-        if api_id:
-            api_data = yt_init_data(api_id)
-            if api_data:
-                show_data.update(api_data)
+    try:
+        platform = Platform.objects.get(
+            Q(name__icontains=platform_name) |
+            Q(simple_name__icontains=platform_name)
+        )
+    except ObjectDoesNotExist:
+        command.stdout.write('Row #{}: Platform not found!'.format(row_num))
+        return
+    api = platform.get_api_class()(show_api_id=api_id)
+    show_data.update(api.get_show_initial())
 
     # Make the show
     if show_data:
@@ -79,4 +83,4 @@ def make_show(command, csv_dict_row):
         s.tags.add(*tags)
         command.stdout.write('Show created: {}'.format(s))
     else:
-        command.stdout.write('No show found for: {}'.format(api_id))
+        command.stdout.write('Row #{}: No show found for {}'.format(row_num, api_id))

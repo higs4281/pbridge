@@ -1,7 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from django.utils import timezone
 
-import dateutil.parser
 from django.views.generic import UpdateView, ListView, DetailView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
@@ -9,8 +8,6 @@ from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Ad
 from .forms import AdUpdateForm
 from shows.mixins import SuccessMessageMixin, SelectRelatedMixin, PrefetchRelatedMixin
-from shows.utils import RSSFeed
-from shows.apitools import youtube_search
 
 
 class AdUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
@@ -48,33 +45,13 @@ class AdDetailView(LoginRequiredMixin, PermissionRequiredMixin,
         for selection on the page, if the episode isn't created yet.
         """
         context = super(AdDetailView, self).get_context_data(**kwargs)
-        # If episode is already created, do nothing
-        if self.object.episode:
-            return context
-        # Some initial vars
-        episode_list = None
-        show = self.object.show
-        platform = show.platform.simple_name
-        api_id = show.api_id
-        # Different handling for each platform
-        # (should probably be done elsewhere)
-        if platform == 'itunes':
-            rss = RSSFeed(show.feed)
-            entries = rss.get_entries_with_initial()
-            try:
-                episode_list = entries[:5]
-            except KeyError:
-                episode_list = entries
-        elif platform == 'youtube':
-            r = youtube_search(None, _type=None, channelId=api_id, order='date')
-            episode_list = r.json().get('items', [])
-            for episode in episode_list:
-                published_at = episode.get('snippet', {}).get('publishedAt')
-                date = dateutil.parser.parse(published_at)
-                episode['date'] = date
-        # Add our shiny list of episodes to context
-        context['episode_list'] = episode_list
-        context['platform'] = platform
+        if not self.object.episode:
+            show = self.object.show
+            platform_class = show.platform.get_api_class()
+            api = platform_class(show_api_id=show.api_id)
+            episode_list = api.get_episode_list()
+            context['episode_list'] = episode_list
+            context['platform'] = show.platform.simple_name
         return context
 
 

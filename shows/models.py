@@ -1,13 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
-from import_export import resources
 
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.text import slugify
+from django.conf import settings
 
 from model_utils.models import TimeStampedModel
 from taggit.managers import TaggableManager
@@ -16,9 +16,16 @@ from simple_history.models import HistoricalRecords
 from clients.models import Client
 from vendors.models import Vendor
 from .mixins import ContactInfoMixin
+from . import apitools
 
 
 class Platform(TimeStampedModel):
+    # Setting to hook API functionality into a platform object
+    CLASS_DICT = {
+        # platform.id: class
+        1: apitools.YouTubeAPI,
+        2: apitools.ItunesAPI,
+    }
     name = models.CharField('platform name', max_length=255)
     simple_name = models.CharField('simplified name', max_length=63)
     show_base_url = models.CharField(
@@ -32,6 +39,9 @@ class Platform(TimeStampedModel):
         help_text='use brackets as id placeholder, e.g. site.com/episode/{{}}/',
     )
     content_type = models.CharField(max_length=63)
+
+    def get_api_class(self):
+        return self.CLASS_DICT.get(self.id)
 
     @python_2_unicode_compatible
     def __str__(self):

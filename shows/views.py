@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from django.db.models import Q
 from django.http import HttpResponse
 import django.views.generic as generic
+from django.conf import settings
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django_filters.views import FilterView
@@ -10,12 +11,11 @@ import autocomplete_light
 from rest_framework import generics
 
 from .admin import ShowResource
-from .models import Show, Host
+from .models import Show, Host, Platform
 from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
 from .mixins import SuccessMessageMixin, PrefetchRelatedMixin
 from .serializers import ShowSerializer
-from .utils import yt_init_data, it_init_data
 
 
 class NewShowTemplateView(generic.TemplateView):
@@ -38,13 +38,15 @@ class ShowCreateView(LoginRequiredMixin, PermissionRequiredMixin,
         initial = super(ShowCreateView, self).get_initial()
         platform = self.request.GET.get('platform')
         _id = self.request.GET.get('id')
-
-        if platform and _id:
-            if platform == 'yt':
-                initial.update(yt_init_data(_id))
-            elif platform == 'it':
-                initial.update(it_init_data(_id))
-
+        try:
+            platform_id = int(platform)
+        except ValueError:
+            return initial
+        platform_class = Platform.CLASS_DICT.get(platform_id)
+        if platform_class and _id:
+            api = platform_class(show_api_id=_id)
+            initial.update(api.get_show_initial())
+            initial['platform'] = Platform.objects.get(id=platform_id)
         return initial
 
 

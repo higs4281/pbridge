@@ -106,7 +106,7 @@ $.youtubeAPI = function(query){
                 shows.empty();
                 $.each( apiData.items, function(i, item) {
                     shows.append('<div class="media">\
-                        <a class="pull-left" href="{% url 'shows:create' %}' + '?platform=yt&id=' + item.id.channelId + '">\
+                        <a class="pull-left" href="{% url 'shows:create' %}' + '?platform=1&id=' + item.id.channelId + '">\
                         <img src="' + item.snippet.thumbnails.default.url + '" width="64" height="64" alt="' + item.snippet.channelTitle + '" />\
                         </a>\
                         <div class="media-body"><h4 class="media-heading">' + item.snippet.channelTitle + '</h4>\
@@ -165,7 +165,7 @@ $.itunesAPI = function(query){
                 shows.empty();
                 $.each( apiData.results, function(i, item) {
                     shows.append('<div class="media">\
-                        <a class="pull-left" href="{% url 'shows:create' %}' + '?platform=it&id=' + item.trackId + '">\
+                        <a class="pull-left" href="{% url 'shows:create' %}' + '?platform=2&id=' + item.trackId + '">\
                         <img src="' + item.artworkUrl60 + '" width="60" height="60" alt="' + item.trackName + '" />\
                         </a>\
                         <div class="media-body"><h4 class="media-heading">' + item.trackName + '</h4>\
