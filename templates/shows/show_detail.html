@@ -48,10 +48,14 @@
             <p class="text-right col-sm-2"><strong>Notes</strong></p>
             <p class="col-sm-10">{{ show.notes }}</p>
         </div>
-        <div class="row">
-            <p class="text-right col-sm-2"><strong>API id</strong></p>
-            <p class="col-sm-10">{{ show.api_id }}</p>
-        </div>
     </div>
+</div>
+<div class="container">
+    <h3>Similar Shows</h3>
+    <ul>
+        {% for similar_show in show.tags.similar_objects %}
+            <li><a href="{{ similar_show.get_absolute_url }}">{{ similar_show.name }}</a></li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock content %}
