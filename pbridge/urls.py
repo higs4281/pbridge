@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^clients/', include('clients.urls', namespace='clients')),
     url(r'^ads/', include('ads.urls', namespace='ads')),
     url(r'^vendors/', include('vendors.urls', namespace='vendors')),
-    
+    # Django REST Framework login and logout views
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
 ]

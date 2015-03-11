@@ -3,7 +3,6 @@ from __future__ import absolute_import, unicode_literals
 from django.db.models import Q
 from django.http import HttpResponse
 import django.views.generic as generic
-from django.conf import settings
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django_filters.views import FilterView
@@ -137,6 +136,13 @@ class ShowExportView(LoginRequiredMixin, PermissionRequiredMixin,
 class ShowAPIListView(generics.ListCreateAPIView):
     queryset = Show.objects.all()
     serializer_class = ShowSerializer
+    filter_fields = (
+        'name',
+        'platform',
+        'notes',
+        'active',
+        'default_vendor',
+    )
 
 
 class ShowAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
