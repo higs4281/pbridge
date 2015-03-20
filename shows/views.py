@@ -3,7 +3,6 @@ from __future__ import absolute_import, unicode_literals
 from django.db.models import Q
 from django.http import HttpResponse
 import django.views.generic as generic
-from django.conf import settings
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django_filters.views import FilterView
@@ -14,7 +13,7 @@ from .admin import ShowResource
 from .models import Show, Host, Platform
 from .forms import ShowCreateForm, ShowUpdateForm, HostCreateForm
 from .filters import ShowSearchFilter
-from .mixins import SuccessMessageMixin, PrefetchRelatedMixin
+from .mixins import SuccessMessageMixin, PrefetchRelatedMixin, SelectRelatedMixin
 from .serializers import ShowSerializer
 
 
@@ -83,20 +82,19 @@ class ShowListView(LoginRequiredMixin, PermissionRequiredMixin,
 
 
 class ShowDetailView(LoginRequiredMixin, PermissionRequiredMixin,
-                     generic.DetailView):
+                     SelectRelatedMixin, generic.DetailView):
     """
     Base view for looking at a single Show object.
     """
-
     model = Show
     permission_required = 'is_staff'
+    select_related = 'ad'
 
 
 class ShowSearchView(LoginRequiredMixin, PermissionRequiredMixin, FilterView):
     """
     Base Search page for shows.
     """
-
     permission_required = 'is_staff'
     template_name = 'shows/show_search.html'
     filterset_class = ShowSearchFilter

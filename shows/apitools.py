@@ -141,7 +141,7 @@ class YouTubeAPI(BasePlatformAPI):
         return None
 
     def get_episode_list(self):
-        data = self.search(None, channelId=self.get_show_api_id())
+        data = self.search(None, order='date', channelId=self.get_show_api_id())
         episode_list = data.get('items', [])
         # special handling for structured date
         for episode in episode_list:
