@@ -9,6 +9,7 @@ class ShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Show
         fields = [
+            'id',
             'name',
             'host',
             'api_id',

@@ -135,6 +135,13 @@ class ShowExportView(LoginRequiredMixin, PermissionRequiredMixin,
 class ShowAPIListView(generics.ListCreateAPIView):
     queryset = Show.objects.all()
     serializer_class = ShowSerializer
+    filter_fields = (
+        'name',
+        'platform',
+        'notes',
+        'active',
+        'default_vendor',
+    )
 
 
 class ShowAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
