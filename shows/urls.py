@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^export/$', views.ShowExportView.as_view(), name='export'),
     url(r'^hosts/create/$', views.HostCreateView.as_view(), name='host_create'),
     url(r'^hosts/(?P<pk>\d+)/$', views.HostDetailView.as_view(), name='host_detail'),
+    url(r'^hosts/(?P<pk>\d+)/update/$', views.HostUpdateView.as_view(), name='host_update'),
     # API URL's
     url(r'^api/$', views.ShowAPIListView.as_view()),
     url(r'^api/(?P<pk>\d+)/$', views.ShowAPIDetailView.as_view()),

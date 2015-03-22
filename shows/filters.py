@@ -1,8 +1,6 @@
 from __future__ import unicode_literals, absolute_import
 
-import floppyforms as forms
 import django_filters
-from crispy_forms.helper import FormHelper
 
 from .models import Show
 from .forms import ShowSearchForm
@@ -18,7 +16,8 @@ class ShowSearchFilter(django_filters.FilterSet):
         model = Show
         fields = {
             'name': ['icontains'],
-            'host__name': ['icontains'],
+            'hosts__first_name': ['icontains'],
+            'hosts__last_name': ['icontains'],
             'platform': ['exact'],
             'tags': ['icontains'],
             'default_vendor': ['exact'],

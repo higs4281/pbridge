@@ -50,8 +50,9 @@ class ShowResource(resources.ModelResource):
         model = Show
         fields = [
             'name',
-            'host__name',
-            'host__email',
+            'hosts__first_name',
+            'hosts__last_name',
+            'hosts__email',
             'api_id',
             'platform__name',
             'art_external',

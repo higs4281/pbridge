@@ -58,8 +58,13 @@ class Platform(TimeStampedModel):
 
 
 class Host(ContactInfoMixin, TimeStampedModel):
-    name = models.CharField('host name', max_length=255)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255, blank=True)
     history = HistoricalRecords()
+
+    @property
+    def name(self):
+        return ' '.join((self.first_name, self.last_name))
 
     def get_absolute_url(self):
         return reverse('shows:host_detail', args=[str(self.id)])
@@ -71,8 +76,8 @@ class Host(ContactInfoMixin, TimeStampedModel):
 
 class Show(TimeStampedModel):
     name = models.CharField('show name', max_length=255)
-    host = models.ForeignKey(Host, null=True, blank=True)
-    # hosts = models.ManyToManyField(Host, blank=True)
+    # host = models.ForeignKey(Host, null=True, blank=True)
+    hosts = models.ManyToManyField(Host, blank=True)
     api_id = models.CharField('API id', max_length=255, blank=True)
     platform = models.ForeignKey(Platform)
     tags = TaggableManager(blank=True)
@@ -95,6 +100,20 @@ class Show(TimeStampedModel):
     active = models.BooleanField(default=True)
     notes = models.TextField(blank=True)
     history = HistoricalRecords()
+
+    @property
+    def host_names(self):
+        return ', '.join(host.name for host in self.hosts.all())
+
+    @property
+    def hosts_as_linked_html(self):
+        html = """<a href="{host_url}">{host_name}</a>"""
+        return ', '.join(
+            html.format(
+                host_url=host.get_absolute_url(),
+                host_name=host.name
+            ) for host in self.hosts.all()
+        )
 
     @property
     def homepage(self):

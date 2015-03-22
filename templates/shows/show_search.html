@@ -29,7 +29,7 @@
 				<th>Name</th>
 				<th>Vendor</th>
 				<th>Platform</th>
-				<th>Host</th>
+				<th>Host(s)</th>
 				<th>Tags</th>
 			</tr>
 		</thead>
@@ -39,7 +39,7 @@
 			<td><a href="{{ show.get_absolute_url }}">{{ show.name }}</a></td>
 			<td>{{ show.default_vendor }}</td>
 			<td>{{ show.platform }}</td>
-			<td>{{ show.host }}</td>
+			<td>{{ show.hosts_as_linked_html|safe }}</td>
 			<td>{{ show.tags.all|join:", " }}</td>
 		</tr>
 		{% endfor %}

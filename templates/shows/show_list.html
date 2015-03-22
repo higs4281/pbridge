@@ -34,7 +34,7 @@
 				<th>Name</th>
 				<th>Type</th>
 				<th>Vendor</th>
-				<th>Host</th>
+				<th>Host(s)</th>
 				<th>Description</th>
 			</tr>
 		</thead>
@@ -55,7 +55,7 @@
 			<td>{{ show.name }}</td>
 			<td>{{ show.platform }}</td>
 			<td>{{ show.default_vendor }}</td>
-			<td>{{ show.host }}</td>
+			<td>{{ show.host_names }}</td>
 			<td>{{ show.description|truncatechars:400 }}</td>
 		</tr>
 		{% endfor %}

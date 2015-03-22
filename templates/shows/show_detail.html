@@ -28,8 +28,8 @@
             </div>
         </div>
         <div class="row top-buffer">
-            <p class="col-sm-4"><strong>Host</strong></p>
-            <p class="col-sm-8">{% if show.host %}<a href="{{ show.host.get_absolute_url }}">{{ show.host.name }}</a>{% endif %}</p>
+            <p class="col-sm-4"><strong>Host(s)</strong></p>
+            <p class="col-sm-8">{{ show.hosts_as_linked_html|safe }}</p>
         </div>
         <div class="row">
             <p class="col-sm-4"><strong>Platform</strong></p>

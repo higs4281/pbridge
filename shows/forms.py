@@ -12,6 +12,31 @@ from .models import Show, Host
 autocomplete_light.autodiscover()
 
 
+class HostCreateForm(forms.ModelForm):
+    """
+    Quick Host creation form.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(HostCreateForm, self).__init__(*args, **kwargs)
+
+        # Custom Crispiness
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.add_input(Submit('save', 'Save'))
+
+    class Meta:
+        model = Host
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'address_1',
+            'address_2',
+        ]
+
+
 class ShowAdminForm(autocomplete_light.ModelForm):
     """
     Adds autocomplete_light functionality to admin forms for the Django Admin site.
@@ -110,7 +135,7 @@ class ShowUpdateForm(ShowForm):
             Div(
                 Div(
                     'name',
-                    'host',
+                    'hosts',
                     'api_id',
                     'link',
                     'description',
@@ -140,7 +165,7 @@ class ShowUpdateForm(ShowForm):
         model = Show
         fields = [
             'name',
-            'host',
+            'hosts',
             'api_id',
             'platform',
             'tags',
@@ -186,23 +211,3 @@ class ShowSearchForm(forms.Form):
             ),
             StrictButton('Search', type='submit', css_class='btn-default')
         )
-
-
-class HostCreateForm(forms.ModelForm):
-    """
-    Quick Host creation form.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super(HostCreateForm, self).__init__(*args, **kwargs)
-
-        # Custom Crispiness
-        self.helper = FormHelper(self)
-        self.helper.form_class = 'form-inline'
-        self.helper.add_input(Submit('save', 'Save'))
-
-    class Meta:
-        model = Host
-        fields = [
-            'name',
-        ]

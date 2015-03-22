@@ -11,7 +11,7 @@ class ShowSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
-            'host',
+            'hosts',
             'api_id',
             'platform',
             'art_external',

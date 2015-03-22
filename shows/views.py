@@ -17,6 +17,33 @@ from .mixins import SuccessMessageMixin, PrefetchRelatedMixin, SelectRelatedMixi
 from .serializers import ShowSerializer
 
 
+class HostCreateView(LoginRequiredMixin, PermissionRequiredMixin,
+                     autocomplete_light.CreateView):
+    """
+    Popup Host creation
+    """
+    model = Host
+    form_class = HostCreateForm
+    permission_required = 'is_staff'
+
+
+class HostUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
+                     SuccessMessageMixin, generic.UpdateView):
+    """
+    Popup Host creation
+    """
+    model = Host
+    form_class = HostCreateForm
+    permission_required = 'is_staff'
+    success_msg = 'Host Updated'
+
+
+class HostDetailView(LoginRequiredMixin, PermissionRequiredMixin,
+                     generic.DetailView):
+    model = Host
+    permission_required = 'is_staff'
+
+
 class NewShowTemplateView(generic.TemplateView):
     template_name = 'shows/new_show.html'
 
@@ -29,9 +56,9 @@ class ShowCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     """
 
     model = Show
+    form_class = ShowCreateForm
     permission_required = 'is_staff'
     success_msg = 'Show created'
-    form_class = ShowCreateForm
 
     def get_initial(self):
         initial = super(ShowCreateView, self).get_initial()
@@ -61,7 +88,7 @@ class ShowListView(LoginRequiredMixin, PermissionRequiredMixin,
                    PrefetchRelatedMixin, generic.ListView):
     model = Show
     permission_required = 'is_staff'
-    prefetch_related = ['platform', 'host', 'default_vendor']
+    prefetch_related = ['platform', 'default_vendor', 'hosts']
 
     def get_queryset(self):
         # FROM 2 SCOOPS 1.6
@@ -98,22 +125,6 @@ class ShowSearchView(LoginRequiredMixin, PermissionRequiredMixin, FilterView):
     permission_required = 'is_staff'
     template_name = 'shows/show_search.html'
     filterset_class = ShowSearchFilter
-
-
-class HostCreateView(LoginRequiredMixin, PermissionRequiredMixin,
-                     autocomplete_light.CreateView):
-    """
-    Popup Host creation
-    """
-    model = Host
-    form_class = HostCreateForm
-    permission_required = 'is_staff'
-
-
-class HostDetailView(LoginRequiredMixin, PermissionRequiredMixin,
-                     generic.DetailView):
-    model = Host
-    permission_required = 'is_staff'
 
 
 class ShowExportView(LoginRequiredMixin, PermissionRequiredMixin,
