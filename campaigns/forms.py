@@ -94,7 +94,7 @@ class AdsInline(InlineFormSet):
         'order',
     ]
     form_class = autocomplete_light.ModelForm
-    extra = 10
+    extra = 4
 
 
 class AdsInlineFormHelper(FormHelper):
